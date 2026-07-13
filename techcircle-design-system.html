@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechCircle Design System — Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Lato:wght@700;800;900&family=Young+Serif&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --heading:#030407;
+    --text-primary:#161618;
+    --caption:#445372;
+    --blue:#0069ff;
+    --mint:#f99d1c;
+    --mint-600:#c47b14;
+    --border:#e0e2e7;
+    --gray-100:#f0f1f3;
+    --neutral-200:#eaecf0;
+    --surface:#ffffff;
+    --hover-fill:#f6f7f9;
+    --dark-0:#0b0f14;
+    --dark-1:#0f172a;
+    --dark-2:#111827;
+    --dark-hover:#13203a;
+    --band-video:#e5f5e5;
+    --band-events:#f4f0e8;
+    --band-events-card:#fbf8f1;
+    --img-placeholder:#ded5c4;
+    --navy:#11255e;
+    --content:1180px;
+    --gutter:40px;
+    font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--text-primary);background:var(--surface);
+    line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  h1,h2,h3,h4{font-family:'Young Serif',Georgia,serif;color:var(--heading);font-weight:400;letter-spacing:.4px;}
+  code,.mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:var(--content);margin:0 auto;padding:0 var(--gutter);}
+  *:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+  /* ---------- Cover ---------- */
+  .cover{background:#000;color:#fff;padding:80px 0 72px;}
+  .cover .brand{font-family:'Lato',sans-serif;font-weight:800;font-size:30px;letter-spacing:-1px;}
+  .cover .brand .m{color:var(--mint);}
+  .cover .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:#8a93a6;display:flex;align-items:center;gap:10px;margin:48px 0 16px;}
+  .cover .kicker::before{content:"";width:24px;height:3px;background:var(--mint);}
+  .cover h1{color:#fff;font-size:56px;line-height:1.1;letter-spacing:-1.5px;max-width:800px;}
+  .cover p{color:#cbd5e1;font-size:17px;line-height:1.6;margin-top:20px;max-width:640px;}
+  .cover .meta-line{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a93a6;
+    text-transform:uppercase;letter-spacing:.5px;margin-top:32px;}
+
+  /* ---------- TOC bar ---------- */
+  .toc{background:var(--neutral-200);border-bottom:1px solid #d4d7de;position:sticky;top:0;z-index:50;}
+  .toc-inner{max-width:var(--content);margin:0 auto;padding:0 var(--gutter);display:flex;flex-wrap:wrap;justify-content:center;}
+  .toc a{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;text-transform:uppercase;
+    letter-spacing:.3px;color:var(--heading);padding:13px 14px;white-space:nowrap;}
+  .toc a:hover{color:var(--blue);}
+
+  /* ---------- Sections ---------- */
+  .section{padding-top:96px;}
+  .section-head{display:flex;gap:9px;padding-bottom:28px;}
+  .section-head .bar{width:3px;background:var(--mint);align-self:stretch;flex-shrink:0;}
+  .section-head h2{font-size:38px;line-height:1.15;letter-spacing:-1px;}
+  .section-head .num{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    color:var(--caption);text-transform:uppercase;display:block;margin-bottom:8px;}
+  .section-head .sub{font-size:15px;color:var(--caption);margin-top:12px;max-width:640px;line-height:1.6;}
+  .spec-note{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);line-height:1.7;}
+
+  /* ---------- Color swatches ---------- */
+  .sw-group{margin-top:32px;}
+  .sw-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-bottom:14px;}
+  .sw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .sw{border:1px solid var(--border);}
+  .sw .chip{height:96px;position:relative;}
+  .sw .chip.hairline{border-bottom:1px solid var(--border);}
+  .sw .info{padding:14px 16px;}
+  .sw .name{font-family:'Young Serif',Georgia,serif;font-size:16px;color:var(--heading);}
+  .sw .hex{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);margin-top:4px;text-transform:uppercase;}
+  .sw .use{font-size:12px;color:var(--caption);margin-top:6px;line-height:1.5;}
+
+  /* ---------- Type specimens ---------- */
+  .type-row{display:grid;grid-template-columns:280px 1fr;gap:32px;padding:28px 0;border-bottom:1px solid var(--border);align-items:baseline;}
+  .type-row:first-of-type{border-top:1px solid var(--border);}
+  .type-spec{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);line-height:1.8;text-transform:uppercase;letter-spacing:.3px;}
+  .type-spec b{color:var(--heading);font-weight:600;display:block;letter-spacing:1.44px;}
+  .t-h1{font-family:'Young Serif',Georgia,serif;font-size:48px;line-height:1.18;letter-spacing:-1px;color:var(--heading);}
+  .t-h2{font-family:'Young Serif',Georgia,serif;font-size:40px;line-height:1.15;letter-spacing:-1px;color:var(--heading);}
+  .t-h3{font-family:'Young Serif',Georgia,serif;font-size:24px;line-height:1.3;letter-spacing:.4px;color:var(--heading);}
+  .t-body{font-size:16px;line-height:1.6;max-width:560px;}
+  .t-dek{font-size:19px;line-height:1.55;color:var(--caption);max-width:560px;}
+  .t-meta{font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  .t-badge{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;text-transform:uppercase;color:var(--caption);}
+  .t-nav{font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.3px;}
+  .t-logo{font-family:'Lato',sans-serif;font-weight:800;font-size:34px;letter-spacing:-1px;}
+  .font-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:32px;}
+  .font-card{border:1px solid var(--border);padding:24px 20px;}
+  .font-card .glyph{font-size:44px;line-height:1;color:var(--heading);}
+  .font-card .fname{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.5px;
+    text-transform:uppercase;color:var(--heading);font-weight:600;margin-top:16px;}
+  .font-card .frole{font-size:12px;color:var(--caption);margin-top:6px;line-height:1.5;}
+
+  /* ---------- Layout diagram ---------- */
+  .lay-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px;}
+  .lay-card{border:1px solid var(--border);padding:28px;}
+  .lay-card h3{font-size:20px;margin-bottom:16px;}
+  .lay-card table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  .lay-card td{padding:9px 0;border-bottom:1px solid var(--border);color:var(--caption);}
+  .lay-card td:last-child{text-align:right;color:var(--heading);}
+  .lay-card tr:last-child td{border-bottom:none;}
+
+  /* ---------- Shared component bits ---------- */
+  .badges{display:flex;gap:16px;flex-wrap:wrap;}
+  .badge{border:1px solid var(--border);padding:4px 8px;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:1.44px;color:var(--caption);text-transform:uppercase;
+    line-height:1.5;white-space:nowrap;}
+  .meta{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  .meta .author{color:var(--blue);font-weight:500;}
+  .meta .sep{width:1px;height:15px;background:var(--border);}
+  .meta .date{color:var(--caption);}
+
+  /* ---------- Component demo frames ---------- */
+  .demo{border:1px solid var(--border);margin-top:32px;}
+  .demo-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:12px 20px;border-bottom:1px solid var(--border);background:var(--hover-fill);}
+  .demo-head .d-name{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:1.44px;text-transform:uppercase;color:var(--heading);}
+  .demo-head .d-note{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--caption);text-align:right;}
+  .demo-body{padding:40px;}
+  .demo-body.dark{background:linear-gradient(180deg,var(--dark-0),var(--dark-2));}
+  .demo-body.cream{background:var(--band-events);}
+  .demo-body.green{background:var(--band-video);}
+  .demo-body.black{background:#000;}
+
+  /* header demo */
+  .dm-topbar{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+  .dm-topbar .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:28px;color:#fff;letter-spacing:-1px;}
+  .dm-topbar .nav-link{font-family:'Poppins',sans-serif;font-size:14px;font-weight:500;color:#fff;
+    text-transform:uppercase;letter-spacing:.3px;}
+  .dm-topbar .nav-link:hover{color:var(--mint);}
+  .dm-topbar .insights{margin-left:auto;background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:11px;text-transform:uppercase;padding:9px 14px;}
+  .dm-snav{display:flex;flex-wrap:wrap;background:var(--neutral-200);border-top:1px solid #d4d7de;margin:24px -40px -40px;padding:0 24px;justify-content:center;}
+  .dm-snav a{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--heading);
+    text-transform:uppercase;letter-spacing:.3px;padding:13px 14px;}
+  .dm-snav a:hover{color:var(--blue);}
+
+  /* buttons demo */
+  .btn-row{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+  .view-all{border:1px solid var(--border);padding:8px 16px;font-size:15px;font-weight:600;color:var(--heading);}
+  .view-all:hover{background:var(--gray-100);}
+  .ev-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--heading);color:var(--heading);
+    background:transparent;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
+    letter-spacing:.5px;text-transform:uppercase;padding:9px 18px;transition:background .2s ease,color .2s ease;}
+  .ev-btn:hover{background:var(--heading);color:#fff;}
+  .report-play{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--mint);
+    color:var(--mint-600);background:#fff;font-family:'Poppins',sans-serif;font-size:14px;
+    font-weight:600;padding:9px 18px;transition:background .2s ease,color .2s ease;}
+  .report-play:hover{background:var(--mint);color:#fff;}
+  .insights-btn{background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;
+    font-size:12px;text-transform:uppercase;letter-spacing:.2px;padding:10px 16px;}
+  .insights-btn:hover{background:#19337f;}
+  .play-badge{width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.55);
+    display:inline-flex;align-items:center;justify-content:center;transition:background .2s ease;}
+  .play-badge svg{width:18px;height:18px;color:#fff;margin-left:2px;}
+  .play-badge:hover{background:var(--mint);}
+
+  /* card demos */
+  .card-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--border);}
+  .hs-card{padding:32px 26px;cursor:pointer;position:relative;transition:border-color .2s ease;}
+  .hs-card + .hs-card{border-left:1px solid var(--border);}
+  .hs-card::before{content:"";position:absolute;left:0;right:0;top:0;height:0;background:var(--hover-fill);
+    z-index:0;pointer-events:none;transition:height .35s ease;}
+  .hs-card:hover::before{height:100%;}
+  .hs-card > *{position:relative;z-index:1;}
+  .hs-card h3{font-size:23px;line-height:1.3;margin:16px 0;letter-spacing:.4px;}
+  .hs-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .thumb-card{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center;cursor:pointer;position:relative;padding:16px;}
+  .thumb-card::before{content:"";position:absolute;inset:0 0 auto 0;height:0;background:var(--hover-fill);
+    z-index:0;pointer-events:none;transition:height .35s ease;}
+  .thumb-card:hover::before{height:100%;}
+  .thumb-card > *{position:relative;z-index:1;}
+  .thumb-card .thumb{width:140px;height:140px;overflow:hidden;background:var(--img-placeholder);}
+  .thumb-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .thumb-card:hover .thumb img{transform:scale(1.08);}
+  .thumb-card h3{font-size:21px;line-height:1.3;margin:8px 0 0;letter-spacing:.4px;}
+  .thumb-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .thumb-card .meta{margin-top:14px;}
+
+  /* dark item demo */
+  .hv3-item{padding:20px;background:var(--dark-1);border-top:1px solid rgba(255,255,255,.08);cursor:pointer;}
+  .hv3-item:hover{background:var(--dark-hover);}
+  .hv3-item .badge{color:#cbd5e1;border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.04);}
+  .hv3-item h3{color:#fff;font-size:20px;line-height:1.35;margin:10px 0 0;letter-spacing:.4px;}
+  .hv3-item:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv3-item .meta{margin-top:14px;}
+  .hv3-item .author{color:#93c5fd;}
+  .hv3-item .date{color:#94a3b8;}
+  .hv3-item .sep{background:rgba(255,255,255,.2);}
+  .hv3-head{display:flex;gap:12px;padding-bottom:16px;}
+  .hv3-head .bar3{width:3px;background:var(--mint);align-self:stretch;flex-shrink:0;}
+  .hv3-head h3{color:#fff;font-size:22px;margin:0;}
+  .hv3-head p{font-family:'IBM Plex Mono',monospace;color:#cbd5e1;font-size:13px;margin-top:6px;}
+
+  /* image caption card demo */
+  .hv6-demo{position:relative;overflow:hidden;background:var(--dark-0);cursor:pointer;aspect-ratio:16/8;}
+  .hv6-demo > img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+    transition:transform .35s ease;will-change:transform;}
+  .hv6-demo:hover > img{transform:scale(1.05);}
+  .hv6-demo .shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.9) 92%);}
+  .hv6-demo .cap{position:absolute;left:24px;right:24px;bottom:20px;display:flex;flex-direction:column;gap:12px;z-index:1;}
+  .hv6-demo .cap .badge{color:#fff;border-color:#fff;background:transparent;}
+  .hv6-demo .cap h3{color:#fff;font-size:28px;line-height:1.25;margin:0;}
+  .hv6-demo:hover .cap h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv6-demo .cap .author{color:#9eb4ff;}
+  .hv6-demo .cap .date{color:#c7cdda;}
+  .hv6-demo .cap .sep{background:rgba(255,255,255,.5);}
+
+  /* event card demo */
+  .ev-card{display:grid;grid-template-columns:280px 1fr;background:var(--band-events-card);
+    border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:box-shadow .2s ease;}
+  .ev-card:hover{box-shadow:0 10px 28px -12px rgba(0,0,0,.18);}
+  .ev-img{position:relative;overflow:hidden;background:var(--img-placeholder);min-height:220px;}
+  .ev-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+    transition:transform .35s ease;will-change:transform;}
+  .ev-card:hover .ev-img img{transform:scale(1.05);}
+  .ev-date{position:absolute;top:16px;left:16px;background:var(--dark-0);color:#fff;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;width:56px;height:56px;line-height:1;z-index:1;}
+  .ev-mon{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;}
+  .ev-day{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;margin-top:2px;}
+  .ev-body{padding:28px;display:flex;flex-direction:column;gap:14px;}
+  .ev-body h3{font-size:26px;line-height:1.2;margin:0;letter-spacing:-.4px;}
+  .ev-card:hover .ev-body h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .ev-metaitem{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--caption);margin-right:20px;}
+
+  /* poll demo */
+  .poll-demo{border:1px solid var(--border);padding:32px;max-width:640px;}
+  .poll-q{font-family:'Young Serif',Georgia,serif;font-size:26px;line-height:1.25;letter-spacing:-.4px;margin:14px 0 24px;color:var(--heading);}
+  .poll-option{position:relative;width:100%;text-align:left;background:#fff;border:1px solid var(--border);
+    padding:18px 20px;overflow:hidden;margin-bottom:14px;display:block;}
+  .poll-option .fill{position:absolute;left:0;top:0;bottom:0;background:rgba(249,157,28,.14);z-index:0;}
+  .poll-option .baseline{position:absolute;left:0;bottom:0;height:3px;background:var(--mint);z-index:1;}
+  .poll-option .row{position:relative;z-index:1;display:flex;justify-content:space-between;gap:16px;align-items:center;}
+  .poll-option .opt-title{font-family:'Young Serif',Georgia,serif;font-size:19px;color:var(--heading);}
+  .poll-option .opt-pct{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;color:var(--heading);}
+  .poll-option.selected{border:2px solid var(--mint);padding:17px 19px;}
+
+  /* motion demo */
+  .motion-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;}
+  .motion-card{border:1px solid var(--border);padding:24px;}
+  .motion-card .m-name{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:1.44px;text-transform:uppercase;color:var(--heading);margin-bottom:8px;}
+  .motion-card .m-spec{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);line-height:1.7;}
+  .motion-card .m-try{margin-top:16px;}
+
+  /* do/don't */
+  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;}
+  .dd-col{border:1px solid var(--border);padding:28px;}
+  .dd-col.do{border-top:3px solid #2e7d32;}
+  .dd-col.dont{border-top:3px solid #c62828;}
+  .dd-col .dd-label{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:1.44px;text-transform:uppercase;margin-bottom:16px;}
+  .dd-col.do .dd-label{color:#2e7d32;}
+  .dd-col.dont .dd-label{color:#c62828;}
+  .dd-col li{display:flex;gap:12px;padding:9px 0;font-size:14px;line-height:1.55;list-style:none;border-top:1px solid var(--border);}
+  .dd-col li:first-of-type{border-top:none;}
+  .dd-col li::before{font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
+  .dd-col.do li::before{content:"✓";color:#2e7d32;}
+  .dd-col.dont li::before{content:"✕";color:#c62828;}
+
+  footer{margin-top:110px;border-top:1px solid var(--border);padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:22px;color:var(--heading);letter-spacing:-1px;}
+  footer .tc .m{color:var(--mint);}
+  footer .copy{font-size:13px;color:var(--caption);}
+
+  @media (hover:none){
+    .hs-card:hover::before,.thumb-card:hover::before{height:0;}
+    .thumb-card:hover .thumb img,.hv6-demo:hover > img,.ev-card:hover .ev-img img{transform:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hs-card::before,.thumb-card::before,.thumb-card .thumb img,.hv6-demo > img,.ev-img img{transition:none;}
+  }
+  @media (max-width:1024px){
+    .sw-grid{grid-template-columns:repeat(2,1fr);}
+    .font-cards{grid-template-columns:repeat(2,1fr);}
+    .motion-grid{grid-template-columns:1fr;}
+    .type-row{grid-template-columns:1fr;gap:12px;}
+  }
+  @media (max-width:768px){
+    :root{--gutter:24px;}
+    .cover h1{font-size:36px;}
+    .section-head h2{font-size:28px;}
+    .lay-grid,.dd-grid,.card-demo-grid{grid-template-columns:1fr;}
+    .hs-card + .hs-card{border-left:none;border-top:1px solid var(--border);}
+    .demo-body{padding:24px;}
+    .dm-snav{margin:24px -24px -24px;}
+    .ev-card{grid-template-columns:1fr;}
+    .t-h1{font-size:32px;}
+    .t-h2{font-size:28px;}
+  }
+  @media (max-width:560px){
+    :root{--gutter:16px;}
+    .sw-grid,.font-cards{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Cover ===== -->
+<div class="cover">
+  <div class="wrap">
+    <div class="brand">tech<span class="m">circle</span></div>
+    <div class="kicker">Design System · v1.0</div>
+    <h1>The TechCircle Design System</h1>
+    <p>An editorial news language: white surface, sharp corners, Young Serif headlines, IBM Plex Mono metadata, a 3px orange bar, and restrained hover motion. Extracted from homepage builds v6.3 and v5.7.</p>
+    <div class="meta-line">HT Digital · Jul 2026 · tokens.css / tokens.json / components.md</div>
+  </div>
+</div>
+
+<!-- ===== TOC ===== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#color">Color</a>
+    <a href="#type">Typography</a>
+    <a href="#layout">Layout</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#components">Components</a>
+    <a href="#motion">Motion</a>
+    <a href="#rules">Do / Don't</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ===== 01 Color ===== -->
+  <section class="section" id="color">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">01 — Foundations</span>
+        <h2>Color</h2>
+        <p class="sub">Text inks, two brand accents with fixed roles, hairline neutrals, dark panel tones, and tinted section bands. Orange is an accent, never a surface; blue is reserved for interaction.</p>
+      </div>
+    </div>
+
+    <div class="sw-group">
+      <div class="sw-label">Text & brand</div>
+      <div class="sw-grid">
+        <div class="sw"><div class="chip" style="background:#030407;"></div>
+          <div class="info"><div class="name">Heading</div><div class="hex">#030407</div><div class="use">All headings · h1–h4</div></div></div>
+        <div class="sw"><div class="chip" style="background:#161618;"></div>
+          <div class="info"><div class="name">Text Primary</div><div class="hex">#161618</div><div class="use">Body copy</div></div></div>
+        <div class="sw"><div class="chip" style="background:#445372;"></div>
+          <div class="info"><div class="name">Caption</div><div class="hex">#445372</div><div class="use">Deks, meta, badges, subs</div></div></div>
+        <div class="sw"><div class="chip" style="background:#0069ff;"></div>
+          <div class="info"><div class="name">Blue</div><div class="hex">#0069FF</div><div class="use">Authors, link hover, focus ring</div></div></div>
+        <div class="sw"><div class="chip" style="background:#f99d1c;"></div>
+          <div class="info"><div class="name">Mint (Orange)</div><div class="hex">#F99D1C</div><div class="use">Section bar, hovers, poll fill</div></div></div>
+        <div class="sw"><div class="chip" style="background:#c47b14;"></div>
+          <div class="info"><div class="name">Mint 600</div><div class="hex">#C47B14</div><div class="use">Accessible orange text on white</div></div></div>
+        <div class="sw"><div class="chip" style="background:#11255e;"></div>
+          <div class="info"><div class="name">Navy</div><div class="hex">#11255E</div><div class="use">Insights CTA</div></div></div>
+        <div class="sw"><div class="chip" style="background:#000;"></div>
+          <div class="info"><div class="name">Header Black</div><div class="hex">#000000</div><div class="use">Top bar</div></div></div>
+      </div>
+    </div>
+
+    <div class="sw-group">
+      <div class="sw-label">Neutrals & lines</div>
+      <div class="sw-grid">
+        <div class="sw"><div class="chip hairline" style="background:#ffffff;"></div>
+          <div class="info"><div class="name">Surface</div><div class="hex">#FFFFFF</div><div class="use">Page background</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#e0e2e7;"></div>
+          <div class="info"><div class="name">Border</div><div class="hex">#E0E2E7</div><div class="use">1px hairlines everywhere</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#f0f1f3;"></div>
+          <div class="info"><div class="name">Gray 100</div><div class="hex">#F0F1F3</div><div class="use">Button hover</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#eaecf0;"></div>
+          <div class="info"><div class="name">Neutral 200</div><div class="hex">#EAECF0</div><div class="use">Secondary nav bar</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#f6f7f9;"></div>
+          <div class="info"><div class="name">Hover Fill</div><div class="hex">#F6F7F9</div><div class="use">Card hover progressive fill</div></div></div>
+        <div class="sw"><div class="chip" style="background:#0b0f14;"></div>
+          <div class="info"><div class="name">Dark 0</div><div class="hex">#0B0F14</div><div class="use">Dark panels, drawer, date chip</div></div></div>
+        <div class="sw"><div class="chip" style="background:#0f172a;"></div>
+          <div class="info"><div class="name">Dark 1</div><div class="hex">#0F172A</div><div class="use">Dark list items</div></div></div>
+        <div class="sw"><div class="chip" style="background:#13203a;"></div>
+          <div class="info"><div class="name">Dark Hover</div><div class="hex">#13203A</div><div class="use">Dark item hover</div></div></div>
+      </div>
+    </div>
+
+    <div class="sw-group">
+      <div class="sw-label">Section bands</div>
+      <div class="sw-grid">
+        <div class="sw"><div class="chip hairline" style="background:#e5f5e5;"></div>
+          <div class="info"><div class="name">Band · Video</div><div class="hex">#E5F5E5</div><div class="use">Video sections (cards #EFF5EF)</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#f4f0e8;"></div>
+          <div class="info"><div class="name">Band · Events</div><div class="hex">#F4F0E8</div><div class="use">Events sections (cards #FBF8F1)</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#efe8da;"></div>
+          <div class="info"><div class="name">Events Fill</div><div class="hex">#EFE8DA</div><div class="use">Card hover fill inside events band</div></div></div>
+        <div class="sw"><div class="chip hairline" style="background:#ded5c4;"></div>
+          <div class="info"><div class="name">Image Placeholder</div><div class="hex">#DED5C4</div><div class="use">Behind loading images</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 02 Typography ===== -->
+  <section class="section" id="type">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">02 — Foundations</span>
+        <h2>Typography</h2>
+        <p class="sub">Five typefaces with fixed, non-negotiable roles. Young Serif is never bold; IBM Plex Mono carries all metadata; Lato 800 exists only in the wordmark.</p>
+      </div>
+    </div>
+
+    <div class="font-cards">
+      <div class="font-card"><div class="glyph" style="font-family:'Young Serif',Georgia,serif;">Aa</div>
+        <div class="fname">Young Serif · 400</div><div class="frole">All headings h1–h4, poll options, topic names</div></div>
+      <div class="font-card"><div class="glyph" style="font-family:'Inter',sans-serif;">Aa</div>
+        <div class="fname">Inter · 400–800</div><div class="frole">Body copy, deks, descriptions</div></div>
+      <div class="font-card"><div class="glyph" style="font-family:'IBM Plex Mono',monospace;">Aa</div>
+        <div class="fname">IBM Plex Mono · 400–600</div><div class="frole">Meta, badges, secondary nav, buttons, numbers</div></div>
+      <div class="font-card"><div class="glyph" style="font-family:'Poppins',sans-serif;">Aa</div>
+        <div class="fname">Poppins · 400–600</div><div class="frole">Primary nav, dropdowns, orange CTA</div></div>
+      <div class="font-card"><div class="glyph" style="font-family:'Lato',sans-serif;font-weight:800;">Aa</div>
+        <div class="fname">Lato · 800</div><div class="frole">Logo wordmark only</div></div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="type-row">
+        <div class="type-spec"><b>Article H1</b>Young Serif 48/1.18 · ls −1px</div>
+        <div class="t-h1">Innovation and stability at 200 mph</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Section H2</b>Young Serif 40/1.15 · ls −1px · →24 mobile</div>
+        <div class="t-h2">Latest from today</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Card H3</b>Young Serif 24/1.3 · ls .4px · →20 mobile</div>
+        <div class="t-h3">The AI ROI gap isn't a model problem</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Dek</b>Inter 19/1.55 · caption color</div>
+        <div class="t-dek">How an 18-person team shifts gears between experimentation, execution, and governance.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Body</b>Inter 16/1.6</div>
+        <div class="t-body">The hard part isn't collecting data. It's making decisions at speed while keeping the governance that holds a complex, high-stakes operation together.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Meta</b>Plex Mono 13 · author blue</div>
+        <div class="t-meta"><span style="color:var(--blue);font-weight:500;">Stephanie Overby</span> <span style="color:var(--border);">|</span> <span style="color:var(--caption);">Jul 10, 2026 · 6 min</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Badge</b>Plex Mono 12 · ls 1.44px · uppercase</div>
+        <div class="t-badge">Digital Transformation</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Primary nav</b>Poppins 15/500 · uppercase</div>
+        <div class="t-nav">News &nbsp; Opinion &nbsp; Podcasts</div>
+      </div>
+      <div class="type-row">
+        <div class="type-spec"><b>Wordmark</b>Lato 34/800 · ls −1px</div>
+        <div class="t-logo">tech<span style="color:var(--mint);">circle</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03 Layout ===== -->
+  <section class="section" id="layout">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">03 — Foundations</span>
+        <h2>Layout, shape & elevation</h2>
+        <p class="sub">A 1280px content column inside a 1440px page, 24px grid gaps, generous 110px section rhythm — and radius 0 on absolutely everything except play badges.</p>
+      </div>
+    </div>
+    <div class="lay-grid">
+      <div class="lay-card">
+        <h3>Grid & spacing</h3>
+        <table>
+          <tr><td>Page max-width</td><td>1440px</td></tr>
+          <tr><td>Content width (.wrap)</td><td>1280px</td></tr>
+          <tr><td>Gutter ≥1280 / ≤1279 / ≤860 / ≤560</td><td>0 / 40 / 24 / 16px</td></tr>
+          <tr><td>Grid gap</td><td>24px</td></tr>
+          <tr><td>Section padding-top (desktop → mobile)</td><td>110 → 36px</td></tr>
+          <tr><td>Full-bleed band padding</td><td>80 → 44px</td></tr>
+          <tr><td>Breakpoints</td><td>1279 · 1200 · 1024 · 900 · 860 · 560 · 380</td></tr>
+        </table>
+      </div>
+      <div class="lay-card">
+        <h3>Shape & elevation</h3>
+        <table>
+          <tr><td>Border radius — everything</td><td>0</td></tr>
+          <tr><td>Border radius — play badges only</td><td>50%</td></tr>
+          <tr><td>Hairline</td><td>1px #E0E2E7</td></tr>
+          <tr><td>Accent bar</td><td>3px #F99D1C</td></tr>
+          <tr><td>Shadow — dropdowns</td><td>0 12 30 rgba(0,0,0,.18)</td></tr>
+          <tr><td>Shadow — event card hover</td><td>0 10 28 −12 rgba(0,0,0,.18)</td></tr>
+          <tr><td>Cards separate with</td><td>borders, not shadows</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04 Buttons ===== -->
+  <section class="section" id="buttons">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">04 — Components</span>
+        <h2>Buttons & badges</h2>
+        <p class="sub">Four button styles, all sharp-cornered. Hover them to see the fixed interaction states.</p>
+      </div>
+    </div>
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Buttons</span><span class="d-note">hover each</span></div>
+      <div class="demo-body">
+        <div class="btn-row">
+          <button class="view-all">View all</button>
+          <button class="ev-btn">Register →</button>
+          <button class="report-play">▶ &nbsp;Play report</button>
+          <button class="insights-btn">TC Insights</button>
+          <span class="play-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+        <p class="spec-note" style="margin-top:24px;">view-all: hairline + Inter 15/600 · ev-btn: mono uppercase, inverts to black · report-play: orange outline, fills orange · insights: navy mono · play badge: the only circle in the system</p>
+      </div>
+    </div>
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Badges & meta</span><span class="d-note">plex mono · ls 1.44px</span></div>
+      <div class="demo-body">
+        <div class="badges"><span class="badge">Feature</span><span class="badge">Opinion</span><span class="badge">AI</span><span class="badge">Podcast Series</span></div>
+        <div class="meta" style="margin-top:20px;"><span class="author">Priya Sharma</span><span class="sep"></span><span class="date">12 Jul 2026 · 6 min</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 05 Components ===== -->
+  <section class="section" id="components">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">05 — Components</span>
+        <h2>Core patterns</h2>
+        <p class="sub">Live, hoverable specimens of the header, cards, dark panel items, image-caption cards, event cards, and the reader poll.</p>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Header + secondary nav</span><span class="d-note">black bar · grey mono nav</span></div>
+      <div class="demo-body black">
+        <div class="dm-topbar">
+          <span class="tc">techcircle</span>
+          <a class="nav-link" href="#">News</a>
+          <a class="nav-link" href="#">Opinion</a>
+          <a class="nav-link" href="#">Events</a>
+          <span class="insights">TC Insights</span>
+        </div>
+        <div class="dm-snav">
+          <a href="#">AI</a><a href="#">Cloud</a><a href="#">IT Leadership</a><a href="#">Security</a><a href="#">Data</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Text card + thumb card</span><span class="d-note">hover: fill + underline + zoom</span></div>
+      <div class="demo-body" style="padding:0;">
+        <div class="card-demo-grid">
+          <article class="hs-card">
+            <div class="badges"><span class="badge">Feature</span></div>
+            <h3>IT isn't holding AI back — your business processes are</h3>
+            <div class="meta"><span class="author">Grant Gross</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+          </article>
+          <article class="thumb-card">
+            <div class="thumb"><img src="https://picsum.photos/seed/tc-ds-thumb/280/280" alt=""></div>
+            <div>
+              <div class="badges"><span class="badge">Opinion</span></div>
+              <h3>Why is it so hard to measure the ROI of AI?</h3>
+              <div class="meta"><span class="author">Maria Korolov</span><span class="sep"></span><span class="date">Jul 8, 2026</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Dark panel + items</span><span class="d-note">gradient #0B0F14 → #111827 · hover #13203A</span></div>
+      <div class="demo-body dark">
+        <div class="hv3-head">
+          <div class="bar3"></div>
+          <div><h3>Editor's picks</h3><p>Hand-selected by the TechCircle desk</p></div>
+        </div>
+        <article class="hv3-item">
+          <div class="badges"><span class="badge">Analysis</span></div>
+          <h3>Anthropic shines a light into the Claude AI black hole</h3>
+          <div class="meta"><span class="author">Evan Schuman</span><span class="sep"></span><span class="date">Jul 8, 2026</span></div>
+        </article>
+        <article class="hv3-item">
+          <div class="badges"><span class="badge">News</span></div>
+          <h3>SpaceXAI wants to compete on AI infrastructure, not just models</h3>
+          <div class="meta"><span class="author">Taryn Plumb</span><span class="sep"></span><span class="date">Jul 7, 2026</span></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Image-caption card (hero v6)</span><span class="d-note">shade gradient · zoom 1.05 · white badge</span></div>
+      <div class="demo-body" style="padding:0;">
+        <article class="hv6-demo">
+          <img src="https://picsum.photos/seed/tc-ds-hero/1400/700" alt="">
+          <div class="shade"></div>
+          <div class="cap">
+            <div class="badges"><span class="badge">Feature</span></div>
+            <h3>Operate like a Formula 1 team: the new AI operating model</h3>
+            <div class="meta"><span class="author">Karthik Chakkarapani</span><span class="sep"></span><span class="date">Jul 10, 2026</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Event card</span><span class="d-note">cream band · date chip · shadow on hover (exception)</span></div>
+      <div class="demo-body cream">
+        <article class="ev-card">
+          <div class="ev-img">
+            <img src="https://picsum.photos/seed/tc-ds-event/560/440" alt="">
+            <div class="ev-date"><span class="ev-mon">Sep</span><span class="ev-day">18</span></div>
+          </div>
+          <div class="ev-body">
+            <div class="badges"><span class="badge">Summit</span></div>
+            <h3>TechCircle CIO Summit 2026</h3>
+            <div><span class="ev-metaitem">📍 Mumbai</span><span class="ev-metaitem">🕘 9:00 AM IST</span></div>
+            <button class="ev-btn" style="align-self:flex-start;">Register →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-head"><span class="d-name">Reader poll (voted state)</span><span class="d-note">orange fill 14% opacity · 3px baseline · serif options</span></div>
+      <div class="demo-body">
+        <div class="poll-demo">
+          <div class="badges"><span class="badge">Reader Poll</span></div>
+          <div class="poll-q">Where will agentic AI deliver value first?</div>
+          <div class="poll-option selected">
+            <span class="fill" style="width:56%;"></span><span class="baseline" style="width:56%;"></span>
+            <span class="row"><span class="opt-title">IT operations & support</span><span class="opt-pct">56%</span></span>
+          </div>
+          <div class="poll-option">
+            <span class="fill" style="width:31%;"></span><span class="baseline" style="width:31%;"></span>
+            <span class="row"><span class="opt-title">Finance & procurement</span><span class="opt-pct">31%</span></span>
+          </div>
+          <div class="poll-option">
+            <span class="fill" style="width:13%;"></span><span class="baseline" style="width:13%;"></span>
+            <span class="row"><span class="opt-title">Customer service</span><span class="opt-pct">13%</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 06 Motion ===== -->
+  <section class="section" id="motion">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">06 — Foundations</span>
+        <h2>Motion</h2>
+        <p class="sub">One hover grammar, applied everywhere: image zoom, headline underline, and a top-down background fill. Always paired with hover:none and reduced-motion resets.</p>
+      </div>
+    </div>
+    <div class="motion-grid">
+      <div class="motion-card">
+        <div class="m-name">Image zoom</div>
+        <div class="m-spec">scale(1.05) features · scale(1.08) thumbs<br>transform .35s ease · cropped by sharp frame</div>
+      </div>
+      <div class="motion-card">
+        <div class="m-name">Headline underline</div>
+        <div class="m-spec">underline · offset 3px · thickness 1.5px<br>heading only, on card hover</div>
+      </div>
+      <div class="motion-card">
+        <div class="m-name">Progressive fill</div>
+        <div class="m-spec">::before height 0 → 100% · .35s ease<br>#F6F7F9 (light) · #EFE8DA (events band)</div>
+      </div>
+      <div class="motion-card">
+        <div class="m-name">Color transitions</div>
+        <div class="m-spec">background / border / color · .2s ease<br>dark items → #13203A · play badge → orange</div>
+      </div>
+      <div class="motion-card">
+        <div class="m-name">Poll fill</div>
+        <div class="m-spec">width 0 → N% · .8s cubic-bezier(.22,.61,.36,1)<br>pct fades in with .15s delay</div>
+      </div>
+      <div class="motion-card">
+        <div class="m-name">Focus & a11y</div>
+        <div class="m-spec">focus-visible: 2px blue outline, offset 2px<br>@media hover:none + prefers-reduced-motion resets</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 07 Do / Don't ===== -->
+  <section class="section" id="rules">
+    <div class="section-head">
+      <div class="bar"></div>
+      <div>
+        <span class="num">07 — Governance</span>
+        <h2>Do / Don't</h2>
+        <p class="sub">The rules that make output look like TechCircle rather than a generic news site.</p>
+      </div>
+    </div>
+    <div class="dd-grid">
+      <div class="dd-col do">
+        <div class="dd-label">Do</div>
+        <ul>
+          <li>Keep every corner sharp — radius 0 on cards, buttons, inputs, image frames.</li>
+          <li>Set all headings in Young Serif at weight 400.</li>
+          <li>Use IBM Plex Mono for every piece of metadata, badge, and utility button.</li>
+          <li>Divide with 1px #E0E2E7 hairlines; break the page with tinted bands.</li>
+          <li>Use the 3px orange bar to anchor every section head.</li>
+          <li>Apply the full hover grammar: zoom + underline + progressive fill.</li>
+        </ul>
+      </div>
+      <div class="dd-col dont">
+        <div class="dd-label">Don't</div>
+        <ul>
+          <li>No rounded corners, pill buttons, or drop-shadows on cards.</li>
+          <li>No bold serif headings; no Young Serif in body copy or buttons.</li>
+          <li>No orange as a large background — accent only; use #C47B14 for orange text on white.</li>
+          <li>No gradients except image shades and the dark panel.</li>
+          <li>No blue for anything except interaction (authors, hovers, focus).</li>
+          <li>Don't replace the hover grammar with opacity fades or lift shadows.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="tc">tech<span class="m">circle</span></span>
+    <span class="copy">TechCircle Design System v1.0 · © 2026 HT Digital</span>
+  </div>
+</footer>
+
+</body>
+</html>
