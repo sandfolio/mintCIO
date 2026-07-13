@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How a Formula 1 IT director balances innovation and stability at 200 mph — TechCircle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Lato:wght@700;800;900&family=Young+Serif&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --heading:#030407;
+    --text-primary:#161618;
+    --caption:#445372;
+    --blue:#0069ff;
+    --mint:#f99d1c;
+    --mint-600:#c47b14;
+    --border:#e0e2e7;
+    --gray-100:#f0f1f3;
+    --neutral-200:#eaecf0;
+    --surface:#ffffff;
+    --hover-fill:#f6f7f9;
+    --dark-0:#0b0f14;
+    --max:1440px;
+    --gutter:0px;
+    --content:1280px;
+    font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--text-primary);
+    background:var(--surface);line-height:1.4;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  ul{list-style:none;}
+  h1,h2,h3,h4{font-family:'Young Serif',Georgia,'Times New Roman',serif;color:var(--heading);
+    font-weight:400;letter-spacing:.4px;}
+  .wrap{max-width:var(--content);margin:0 auto;padding:0 var(--gutter);}
+  *:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:0;}
+
+  /* ---------- Header ---------- */
+  header{background:#000;}
+  .top-bar{max-width:1280px;margin:0 auto;padding:16px var(--gutter);display:flex;align-items:center;gap:32px;}
+  .brand .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:34px;color:#fff;line-height:1;letter-spacing:-1px;}
+  .primary-nav{display:flex;align-items:center;gap:28px;}
+  .primary-nav .nav-link{font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;color:#fff;
+    text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;}
+  .primary-nav .nav-link:hover{color:var(--mint);}
+  .top-right{display:flex;align-items:center;gap:18px;margin-left:auto;flex-shrink:0;}
+  .insights-link{display:flex;align-items:center;justify-content:center;background:#11255e;color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;text-transform:uppercase;
+    letter-spacing:.2px;padding:0 16px;height:36px;white-space:nowrap;}
+  .insights-link:hover{background:#19337f;}
+  .login-link{display:flex;align-items:center;gap:8px;color:#fff;font-family:'IBM Plex Mono',monospace;
+    font-weight:500;font-size:14px;text-transform:uppercase;letter-spacing:.3px;}
+  .login-link:hover{color:var(--mint);}
+  .secondary-nav{background:var(--neutral-200);border-top:1px solid #d4d7de;}
+  .secondary-nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;justify-content:center;gap:4px;flex-wrap:wrap;}
+  .snav-link{display:block;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;
+    color:var(--heading);text-transform:uppercase;letter-spacing:.3px;padding:14px 16px;white-space:nowrap;}
+  .snav-link:hover{color:var(--blue);}
+  .snav-link.active{color:var(--blue);box-shadow:inset 0 -3px 0 var(--mint);}
+
+  /* ---------- Shared bits ---------- */
+  .badges{display:flex;gap:16px;flex-wrap:wrap;}
+  .badge{border:1px solid var(--border);padding:4px 8px;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:1.44px;color:var(--caption);text-transform:uppercase;
+    line-height:1.5;white-space:nowrap;}
+  .meta{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;}
+  .meta .author{color:var(--blue);font-weight:500;}
+  .meta .sep{width:1px;height:15px;background:var(--border);}
+  .meta .date,.meta .rt{color:var(--caption);}
+
+  /* ---------- Breadcrumb ---------- */
+  .crumbs{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    text-transform:uppercase;letter-spacing:.5px;color:var(--caption);padding:24px 0 0;}
+  .crumbs a:hover{color:var(--blue);}
+  .crumbs .c-sep{color:var(--border);}
+
+  /* ---------- Article head ---------- */
+  .article-head{max-width:860px;padding-top:40px;}
+  .article-head .badges{margin-bottom:20px;}
+  .article-head h1{font-size:48px;line-height:1.18;letter-spacing:-1px;}
+  .article-head .dek{font-size:19px;line-height:1.55;color:var(--caption);margin-top:20px;}
+  .article-head .meta{margin-top:24px;padding-bottom:28px;border-bottom:1px solid var(--border);}
+
+  /* ---------- Hero figure ---------- */
+  .article-hero{margin-top:32px;}
+  .article-hero .frame{overflow:hidden;background:#ded5c4;}
+  .article-hero img{width:100%;height:auto;object-fit:cover;}
+  .article-hero figcaption{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);
+    padding:10px 0;border-bottom:1px solid var(--border);letter-spacing:.3px;}
+
+  /* ---------- Stats strip ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);margin-top:40px;}
+  .stat{padding:24px;display:flex;flex-direction:column;gap:8px;}
+  .stat + .stat{border-left:1px solid var(--border);}
+  .stat .num{font-family:'Young Serif',Georgia,serif;font-size:36px;color:var(--heading);line-height:1;}
+  .stat .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);}
+
+  /* ---------- Article layout ---------- */
+  .article-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:64px;margin-top:56px;}
+  .article-body{max-width:760px;}
+  .article-body p{font-size:17px;line-height:1.7;margin:0 0 24px;}
+  .article-body p b{font-weight:600;}
+  .article-body a{color:var(--blue);}
+  .article-body a:hover{text-decoration:underline;text-underline-offset:3px;}
+  .sec-h{display:flex;gap:12px;margin:48px 0 20px;}
+  .sec-h .bar{width:3px;background:var(--mint);align-self:stretch;flex-shrink:0;}
+  .sec-h h2{font-size:30px;line-height:1.2;letter-spacing:-.5px;}
+
+  /* pull quote */
+  .pull{border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:32px 0;margin:40px 0;}
+  .pull p{font-family:'Young Serif',Georgia,serif;font-size:27px;line-height:1.35;color:var(--heading);
+    letter-spacing:-.3px;margin:0;}
+  .pull .who{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-top:16px;display:flex;align-items:center;gap:10px;}
+  .pull .who::before{content:"";width:24px;height:3px;background:var(--mint);}
+
+  /* takeaways box */
+  .takeaways{border:1px solid var(--border);padding:28px;margin:40px 0;}
+  .takeaways .t-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .takeaways .t-label::before{content:"";width:24px;height:3px;background:var(--mint);}
+  .takeaways li{display:flex;gap:12px;padding:10px 0;font-size:15px;line-height:1.55;}
+  .takeaways li + li{border-top:1px solid var(--border);}
+  .takeaways li::before{content:"→";font-family:'IBM Plex Mono',monospace;color:var(--mint-600);flex-shrink:0;}
+
+  /* source note */
+  .source-note{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);line-height:1.6;
+    border-top:1px solid var(--border);padding-top:20px;margin-top:48px;}
+  .source-note a{color:var(--blue);}
+  .source-note a:hover{color:var(--mint-600);}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{display:flex;flex-direction:column;gap:40px;}
+  .side-box{border:1px solid var(--border);padding:28px;}
+  .side-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-bottom:18px;}
+  .author-card .a-name{font-family:'Young Serif',Georgia,serif;font-size:22px;color:var(--heading);}
+  .author-card .a-bio{font-size:14px;line-height:1.6;color:var(--caption);margin-top:10px;}
+  .side-list a{display:block;padding:14px 0;font-family:'Young Serif',Georgia,serif;font-size:17px;
+    line-height:1.4;color:var(--heading);}
+  .side-list a + a{border-top:1px solid var(--border);}
+  .side-list a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .side-list .m{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;
+    text-transform:uppercase;color:var(--caption);margin-top:8px;}
+  .nl-box{background:var(--dark-0);border:none;}
+  .nl-box .side-label{color:#8a93a6;}
+  .nl-box h3{color:#fff;font-size:22px;line-height:1.3;}
+  .nl-box p{color:#cbd5e1;font-size:13px;line-height:1.6;margin-top:10px;}
+  .nl-form{display:flex;margin-top:18px;}
+  .nl-form input{flex:1;min-width:0;height:42px;border:1px solid rgba(255,255,255,.25);background:transparent;
+    color:#fff;padding:0 12px;font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;}
+  .nl-form input::placeholder{color:#8a93a6;}
+  .nl-form button{height:42px;padding:0 16px;background:var(--mint);color:#0b0f14;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+  .nl-form button:hover{background:#ffb143;}
+
+  /* ---------- Related section ---------- */
+  .section{padding-top:110px;padding-bottom:80px;}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:24px;}
+  .section-head .left{display:flex;gap:9px;}
+  .section-head .bar{width:3px;background:#F99D1C;align-self:stretch;}
+  .section-head h2{font-size:40px;line-height:1.15;letter-spacing:-1px;}
+  .view-all{border:1px solid var(--border);padding:8px 16px;font-size:15px;font-weight:600;color:var(--heading);white-space:nowrap;}
+  .view-all:hover{background:var(--gray-100);}
+  .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);}
+  .rel-card{padding:40px 26px 32px;cursor:pointer;position:relative;transition:border-color .2s ease;}
+  .rel-card:first-child{padding-left:0;}
+  .rel-card + .rel-card{border-left:1px solid var(--border);}
+  .rel-card::before{content:"";position:absolute;left:0;right:0;top:0;height:0;background:var(--hover-fill);
+    z-index:0;pointer-events:none;transition:height .35s ease;}
+  .rel-card:hover::before{height:100%;}
+  .rel-card > *{position:relative;z-index:1;}
+  .rel-card h3{font-size:24px;line-height:1.3;margin:16px 0;letter-spacing:.4px;}
+  .rel-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  @media (hover:none){.rel-card:hover::before{height:0;}}
+  @media (prefers-reduced-motion:reduce){.rel-card::before{transition:none;}}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:0;border-top:1px solid var(--border);padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .brand .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:22px;color:var(--heading);letter-spacing:-1px;}
+  footer .brand .mint{color:var(--mint);}
+  footer .copy{font-size:13px;color:var(--caption);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1279px){:root{--gutter:40px;}}
+  @media (max-width:1024px){
+    .article-grid{grid-template-columns:1fr;gap:48px;}
+    .article-body{max-width:760px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .sidebar > *{flex:1 1 300px;}
+  }
+  @media (max-width:900px){
+    .stats{grid-template-columns:1fr 1fr;}
+    .stat:nth-child(3){border-left:none;}
+    .stat:nth-child(n+3){border-top:1px solid var(--border);}
+    .rel-grid{grid-template-columns:1fr;}
+    .rel-card{padding:24px 0;border-left:none !important;}
+    .rel-card + .rel-card{border-top:1px solid var(--border);}
+  }
+  @media (max-width:860px){
+    :root{--gutter:24px;}
+    .primary-nav{display:none;}
+    .article-head h1{font-size:34px;}
+  }
+  @media (max-width:560px){
+    :root{--gutter:16px;}
+    .secondary-nav{display:none;}
+    .insights-link{display:none;}
+    .brand .tc{font-size:28px;}
+    .article-head{padding-top:24px;}
+    .article-head h1{font-size:27px;letter-spacing:-.5px;}
+    .article-head .dek{font-size:16px;}
+    .article-body p{font-size:16px;}
+    .sec-h h2{font-size:23px;}
+    .pull p{font-size:21px;}
+    .stats{grid-template-columns:1fr 1fr;}
+    .stat{padding:16px;}
+    .stat .num{font-size:26px;}
+    .section{padding-top:48px;padding-bottom:48px;}
+    .section-head h2{font-size:24px;}
+    .side-box{padding:20px;}
+    footer .wrap{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="top-bar">
+    <a class="brand" href="#"><span class="tc">techcircle</span></a>
+    <nav class="primary-nav">
+      <a class="nav-link" href="#">News</a>
+      <a class="nav-link" href="#">Opinion</a>
+      <a class="nav-link" href="#">Podcasts</a>
+      <a class="nav-link" href="#">Videos</a>
+      <a class="nav-link" href="#">Events</a>
+    </nav>
+    <div class="top-right">
+      <a class="insights-link" href="#">TC Insights</a>
+      <a class="login-link" href="#">Login</a>
+    </div>
+  </div>
+</header>
+<nav class="secondary-nav">
+  <div class="secondary-nav-inner">
+    <a class="snav-link" href="#">AI</a>
+    <a class="snav-link" href="#">Cloud</a>
+    <a class="snav-link active" href="#">IT Leadership</a>
+    <a class="snav-link" href="#">Security</a>
+    <a class="snav-link" href="#">Data</a>
+    <a class="snav-link" href="#">Startups</a>
+    <a class="snav-link" href="#">Enterprise</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- ===== Breadcrumb ===== -->
+  <div class="crumbs">
+    <a href="#">Home</a><span class="c-sep">/</span>
+    <a href="#">IT Leadership</a><span class="c-sep">/</span>
+    <span>Digital Transformation</span>
+  </div>
+
+  <!-- ===== Article head ===== -->
+  <div class="article-head">
+    <div class="badges">
+      <span class="badge">Feature</span>
+      <span class="badge">IT Leadership</span>
+      <span class="badge">Innovation</span>
+    </div>
+    <h1>How a Formula 1 IT director balances innovation and stability at 200 mph</h1>
+    <p class="dek">Mercedes-AMG Petronas processes more data in a single race than most enterprises see in a month. Michael Taylor explains how his 18-person team shifts gears between experimentation, execution, and governance — and knows when to let humans take the wheel.</p>
+    <div class="meta">
+      <span class="author">Stephanie Overby</span>
+      <span class="sep"></span>
+      <span class="date">Jul 10, 2026</span>
+      <span class="sep"></span>
+      <span class="rt">6 min read</span>
+    </div>
+  </div>
+
+  <!-- ===== Hero figure ===== -->
+  <figure class="article-hero">
+    <div class="frame">
+      <img src="https://www.cio.com/wp-content/uploads/2026/07/4194702-0-77262700-1783677855-Michael-Taylor-FI-Mercedes-Headshot-1.jpeg?quality=50&strip=all&w=1024" alt="Michael Taylor, IT director, Mercedes-AMG Petronas">
+    </div>
+    <figcaption>Michael Taylor, IT director, Mercedes-AMG Petronas · Credit: Michael Taylor / Mercedes-AMG Petronas</figcaption>
+  </figure>
+
+  <!-- ===== Stats strip ===== -->
+  <div class="stats">
+    <div class="stat"><span class="num">300</span><span class="lbl">Sensors per car</span></div>
+    <div class="stat"><span class="num">1M+</span><span class="lbl">Data points / second</span></div>
+    <div class="stat"><span class="num">18</span><span class="lbl">People on the IT team</span></div>
+    <div class="stat"><span class="num">25</span><span class="lbl">Seasons with the team</span></div>
+  </div>
+
+  <!-- ===== Body + sidebar ===== -->
+  <div class="article-grid">
+    <article class="article-body">
+      <p>Michael Taylor has spent 25 seasons with the Mercedes-AMG Petronas F1 team, working his way through nearly every IT role — trackside support, engineering systems, business transformation. Today, as IT director, he leads an 18-person team running one of the most data-intensive operations anywhere.</p>
+      <p>The scale is startling: each car rolls out of the garage carrying 300 sensors and, once running, generates more than a million data points every second. Engineers mine that telemetry for the fractions of a second that separate winning from losing. "The key metric in our sport is the stopwatch," Taylor says — F1 has been data-centric since the 1950s, but now the team instruments everything, on the principle that if you can measure it, you can improve it.</p>
+      <p>The hard part isn't collecting data — F1 has streamed live telemetry since the 1980s. It's making decisions at speed while keeping the governance that holds a complex, high-stakes operation together. For CIOs under pressure to move fast on AI while managing risk, security, and data quality, Taylor's pit-lane lessons offer a framework.</p>
+
+      <div class="sec-h"><div class="bar"></div><h2>Innovation vs. stability: 'a constant battle'</h2></div>
+      <p>In most enterprises the tension between innovation and control plays out over quarters or years. In F1 it happens weekly, and Taylor admits the team doesn't always get it right — which is exactly why he leans on people with deep industry experience when weighing changes.</p>
+      <p>The operation runs in two distinct modes. Between races, at the Brackley, UK factory — a 60,000-square-meter technology campus where the championship-winning cars are designed, built, and improved — there's room for project work and experimentation. As a race weekend approaches, everything shifts to pure execution: no changes that could affect the engineers. The same agility that drives innovation during the week must yield to stability when results are on the line.</p>
+
+      <div class="pull">
+        <p>"If security gets in the way of the business, the business will find ways to work around it. The job is to make the secure path the easiest path."</p>
+        <div class="who">Michael Taylor · IT Director, Mercedes-AMG Petronas</div>
+      </div>
+
+      <div class="sec-h"><div class="bar"></div><h2>Modernizing at racing speed</h2></div>
+      <p>The team had run SAP since 1999 — it underpins the entire design-to-track process, from design release through planning, procurement, manufacturing, and testing to reassembling the car trackside. When it came time to modernize, they treated the migration like a pit stop: planned to the second. They signed on to RISE with SAP in December 2024 and targeted go-live during the sport's mandatory two-week August shutdown, "the perfect window to make changes."</p>
+      <p>They finished eight weeks early. Taylor credits a culture of control shaped by the sport's time-bound nature: rather than hand things to large systems integrators who "dip their toes in and disappear," his 18-person team taps SAP's expertise for specific problems, then takes back ownership.</p>
+
+      <div class="sec-h"><div class="bar"></div><h2>The secure path must be the easiest path</h2></div>
+      <p>IP in F1 has a short shelf life — once a new component is photographed in the pit lane, rivals can see it. The real advantage, Taylor argues, is everything behind the part: the thinking, modeling, simulation, failure modes, and development direction. Protecting that demands an offensive posture — his security chief reports directly to him, and the team actively probes its own defenses, thinking and working like a hacker.</p>
+      <p>In an engineering culture where people are empowered to move fast, heavy-handed security backfires. The lesson: don't slow the organization down; make the secure path the path of least resistance.</p>
+
+      <div class="sec-h"><div class="bar"></div><h2>Humans in the loop</h2></div>
+      <p>The team is piloting AI across the organization — machine learning for simulation, agentic workflows in production planning, coding copilots — but Taylor is resisting the urge to rush, expecting to decide what to scale within six to ten months. He remains firmly committed to human oversight: the real benefit comes when AI complements the workforce, not replaces its judgment.</p>
+      <p>AI has also raised the bar for data governance. "Good enough" now means stronger visibility, cleaner permissions, and clearer ownership — being deliberate about what data AI is allowed to touch.</p>
+
+      <div class="sec-h"><div class="bar"></div><h2>Start with consequence</h2></div>
+      <p>Taylor's advice for CIOs elsewhere is deceptively simple: "Start with consequence, not technology." In financial services the consequence might be customer harm or a regulatory breach; in healthcare, patient safety; in F1, lost competitive advantage. Once the consequence is clear, you can decide what needs the strongest control, what needs monitoring, what needs retention — and what just needs better hygiene.</p>
+      <p>It's a lesson from 25 seasons at the edge of the technically possible, where decisions happen in milliseconds and the margin between success and failure is measured in fractions of a second.</p>
+
+      <div class="takeaways">
+        <div class="t-label">Key takeaways</div>
+        <ul>
+          <li>Run two modes deliberately — experiment between races, freeze changes near race weekend.</li>
+          <li>Own your core systems; use vendors for targeted expertise, then take back the reins.</li>
+          <li>Make the secure path the easiest path, or the business will route around it.</li>
+          <li>Keep humans in the loop — scale AI only after structured pilots prove value.</li>
+          <li>Start with consequence, not technology, when setting governance strength.</li>
+        </ul>
+      </div>
+
+      <p class="source-note">Adapted summary. Original reporting by Stephanie Overby for CIO.com —
+        <a href="https://www.cio.com/article/4194702/how-a-formula-one-it-director-balances-innovation-and-stability-at-200-mph.html">read the full article</a>.</p>
+    </article>
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="side-box author-card">
+        <div class="side-label">About the author</div>
+        <div class="a-name">Stephanie Overby</div>
+        <p class="a-bio">Regular contributor to CIO.com, covering IT leadership, sourcing, and the business of technology.</p>
+      </div>
+      <div class="side-box">
+        <div class="side-label">Most read</div>
+        <div class="side-list">
+          <a href="#">SAP concedes to EU, freeing CIOs from expensive support shackles<span class="m">News · 11 min</span></a>
+          <a href="#">Beware of AI costs hidden in plain sight<span class="m">Feature · 7 min</span></a>
+          <a href="#">The 11 hardest IT roles to fill in 2026<span class="m">Feature · 12 min</span></a>
+        </div>
+      </div>
+      <div class="side-box nl-box">
+        <div class="side-label">Newsletter</div>
+        <h3>The stopwatch never lies.</h3>
+        <p>Get sharp IT leadership stories in your inbox, every weekday morning.</p>
+        <form class="nl-form" onsubmit="return false;">
+          <input type="email" placeholder="you@company.com" aria-label="Email address">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== Related ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="left">
+        <div class="bar"></div>
+        <h2>Related reading</h2>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+    <div class="rel-grid">
+      <article class="rel-card">
+        <div class="badges"><span class="badge">Opinion</span></div>
+        <h3>Operate like a Formula 1 team: the new AI operating model</h3>
+        <div class="meta"><span class="author">Karthik Chakkarapani</span><span class="sep"></span><span class="date">Jul 10, 2026</span></div>
+      </article>
+      <article class="rel-card">
+        <div class="badges"><span class="badge">Feature</span></div>
+        <h3>IT isn't holding AI back — your business processes are</h3>
+        <div class="meta"><span class="author">Grant Gross</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+      </article>
+      <article class="rel-card">
+        <div class="badges"><span class="badge">Opinion</span></div>
+        <h3>AI won't transform your business if you're still running it the same way</h3>
+        <div class="meta"><span class="author">Arti Deshpande</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="tc">tech<span class="mint">circle</span></span></div>
+    <div class="copy">© 2026 TechCircle · HT Digital. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>

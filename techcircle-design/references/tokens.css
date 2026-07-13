@@ -1,0 +1,105 @@
+/* TechCircle Design System — tokens.css
+   Extracted from techcircle-v6_3.html (primary) + techcircle-v5_7.html (cross-check) */
+
+:root {
+  /* --- Color: text --- */
+  --heading: #030407;
+  --text-primary: #161618;
+  --caption: #445372;
+
+  /* --- Color: brand & interaction --- */
+  --blue: #0069ff;        /* links, author names, focus rings */
+  --mint: #f99d1c;        /* orange accent: section bar, hovers, poll fill */
+  --mint-600: #c47b14;    /* accessible orange for text on white */
+
+  /* --- Color: surfaces & lines --- */
+  --surface: #ffffff;
+  --border: #e0e2e7;
+  --gray-100: #f0f1f3;
+  --neutral-200: #eaecf0; /* secondary nav bar */
+
+  /* --- Color: extended (used literally in components) --- */
+  --header-bg: #000000;
+  --navy: #11255e;            /* insights CTA */
+  --navy-hover: #19337f;
+  --dark-0: #0b0f14;          /* dark panels, drawer, ev-date chip */
+  --dark-1: #0f172a;          /* dark list items */
+  --dark-2: #111827;          /* dark panel gradient end */
+  --dark-hover: #13203a;
+  --dark-border: #242a46;
+  --hover-fill: #f6f7f9;      /* card hover progressive fill */
+  --band-video: #e5f5e5;      /* CIO video section bg */
+  --band-video-card: #eff5ef;
+  --band-video-card-hover: #e6efe6;
+  --band-events: #f4f0e8;     /* events section bg */
+  --band-events-card: #fbf8f1;
+  --band-events-fill: #efe8da;
+  --band-events-border: #d9cfbb;
+  --img-placeholder: #ded5c4;
+  --author-on-dark: #9eb4ff;  /* also #93c5fd in hv3 */
+  --date-on-dark: #c7cdda;    /* also #94a3b8 */
+  --muted-on-dark: #cbd5e1;
+  --muted-on-dark-2: #8a93a6;
+
+  /* --- Typography --- */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Young Serif', Georgia, 'Times New Roman', serif; /* weight 400 only */
+  --font-mono: 'IBM Plex Mono', monospace;   /* meta, badges, snav, buttons */
+  --font-nav: 'Poppins', sans-serif;         /* primary nav, dropdowns */
+  --font-logo: 'Lato', sans-serif;           /* wordmark, weight 800 */
+
+  /* --- Layout --- */
+  --max: 1440px;
+  --content: 1280px;
+  --gutter: 0px;              /* 40px ≤1279px, 24px ≤860px, 16px ≤560px */
+  --gap: 24px;
+  --section-pad: 110px;       /* padding-top per section; 36px mobile */
+  --band-pad: 80px;           /* full-bleed band vertical padding */
+
+  /* --- Shape --- */
+  --radius: 0;                /* sharp corners everywhere */
+  --radius-play: 50%;         /* play badges only */
+  --hairline: 1px solid var(--border);
+  --accent-bar: 3px;          /* orange section-head bar width */
+
+  /* --- Shadow (dropdowns/drawers/hero-v3 only) --- */
+  --shadow-dropdown: 0 12px 30px rgba(0,0,0,.18);
+  --shadow-snav: 0 12px 30px rgba(0,0,0,.16);
+  --shadow-drawer: -12px 0 30px rgba(0,0,0,.3);
+  --shadow-hero: 0 10px 28px -10px rgba(0,0,0,.08);
+  --shadow-card-hover: 0 10px 28px -12px rgba(0,0,0,.18); /* event card only */
+
+  /* --- Motion --- */
+  --ease: ease;
+  --dur-fast: .2s;            /* color/background/border */
+  --dur-med: .35s;            /* image zoom, hover fill */
+  --dur-drawer: .25s;
+  --ease-poll: cubic-bezier(.22,.61,.36,1); /* .8s poll fill */
+  --zoom-card: 1.05;
+  --zoom-thumb: 1.08;
+  --underline-offset: 3px;
+  --underline-thickness: 1.5px;
+
+  font-synthesis: none;
+}
+
+/* Base */
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--surface);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--heading);
+  font-weight: 400;
+  letter-spacing: .4px;
+}
+.wrap { max-width: var(--content); margin: 0 auto; padding: 0 var(--gutter); }
+*:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 0; }
+
+@media (max-width: 1279px) { :root { --gutter: 40px; } }
+@media (max-width: 860px)  { :root { --gutter: 24px; } }
+@media (max-width: 560px)  { :root { --gutter: 16px; --section-pad: 36px; } }

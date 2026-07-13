@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artificial Intelligence — TechCircle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Lato:wght@700;800;900&family=Young+Serif&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --heading:#030407;
+    --text-primary:#161618;
+    --caption:#445372;
+    --blue:#0069ff;
+    --mint:#f99d1c;
+    --mint-600:#c47b14;
+    --border:#e0e2e7;
+    --gray-100:#f0f1f3;
+    --neutral-200:#eaecf0;
+    --surface:#ffffff;
+    --hover-fill:#f6f7f9;
+    --dark-0:#0b0f14;
+    --dark-1:#0f172a;
+    --dark-hover:#13203a;
+    --band-video:#e5f5e5;
+    --band-video-card:#eff5ef;
+    --band-video-card-hover:#e6efe6;
+    --band-events:#f4f0e8;
+    --band-events-card:#fbf8f1;
+    --band-events-fill:#efe8da;
+    --band-events-border:#d9cfbb;
+    --max:1440px;
+    --gutter:0px;
+    --content:1280px;
+    font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--text-primary);
+    background:var(--surface);line-height:1.4;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  ul{list-style:none;}
+  h1,h2,h3,h4{font-family:'Young Serif',Georgia,'Times New Roman',serif;color:var(--heading);
+    font-weight:400;letter-spacing:.4px;}
+  .wrap{max-width:var(--content);margin:0 auto;padding:0 var(--gutter);}
+  *:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:0;}
+
+  /* ---------- Header ---------- */
+  header{background:#000;}
+  .top-bar{max-width:1280px;margin:0 auto;padding:16px var(--gutter);display:flex;align-items:center;gap:32px;}
+  .brand .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:34px;color:#fff;line-height:1;letter-spacing:-1px;}
+  .primary-nav{display:flex;align-items:center;gap:28px;}
+  .primary-nav .nav-link{font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;color:#fff;
+    text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;}
+  .primary-nav .nav-link:hover{color:var(--mint);}
+  .top-right{display:flex;align-items:center;gap:18px;margin-left:auto;flex-shrink:0;}
+  .insights-link{display:flex;align-items:center;justify-content:center;background:#11255e;color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;text-transform:uppercase;
+    letter-spacing:.2px;padding:0 16px;height:36px;white-space:nowrap;}
+  .insights-link:hover{background:#19337f;}
+  .login-link{display:flex;align-items:center;gap:8px;color:#fff;font-family:'IBM Plex Mono',monospace;
+    font-weight:500;font-size:14px;text-transform:uppercase;letter-spacing:.3px;}
+  .login-link:hover{color:var(--mint);}
+  .secondary-nav{background:var(--neutral-200);border-top:1px solid #d4d7de;}
+  .secondary-nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;justify-content:center;gap:4px;flex-wrap:wrap;}
+  .snav-link{display:block;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;
+    color:var(--heading);text-transform:uppercase;letter-spacing:.3px;padding:14px 16px;white-space:nowrap;}
+  .snav-link:hover{color:var(--blue);}
+  .snav-link.active{color:var(--blue);box-shadow:inset 0 -3px 0 var(--mint);}
+
+  /* ---------- Shared ---------- */
+  .badges{display:flex;gap:16px;flex-wrap:wrap;}
+  .badge{border:1px solid var(--border);padding:4px 8px;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:1.44px;color:var(--caption);text-transform:uppercase;
+    line-height:1.5;white-space:nowrap;}
+  .meta{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;}
+  .meta .author{color:var(--blue);font-weight:500;}
+  .meta .sep{width:1px;height:15px;background:var(--border);}
+  .meta .date,.meta .rt{color:var(--caption);}
+  .section{padding-top:110px;}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:24px;}
+  .section-head .left{display:flex;gap:9px;}
+  .section-head .bar{width:3px;background:#F99D1C;align-self:stretch;}
+  .section-head h2{font-size:40px;line-height:1.15;letter-spacing:-1px;}
+  .section-head .sub{font-size:14px;color:var(--caption);margin-top:14px;}
+  .view-all{border:1px solid var(--border);padding:8px 16px;font-size:15px;font-weight:600;color:var(--heading);white-space:nowrap;}
+  .view-all:hover{background:var(--gray-100);}
+
+  /* ---------- Section masthead ---------- */
+  .crumbs{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    text-transform:uppercase;letter-spacing:.5px;color:var(--caption);padding:24px 0 0;}
+  .crumbs a:hover{color:var(--blue);}
+  .crumbs .c-sep{color:var(--border);}
+  .masthead{padding:40px 0 0;border-bottom:1px solid var(--border);padding-bottom:40px;}
+  .masthead .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .masthead .kicker::before{content:"";width:24px;height:3px;background:var(--mint);}
+  .masthead h1{font-size:56px;line-height:1.1;letter-spacing:-1.5px;}
+  .masthead .desc{font-size:18px;line-height:1.55;color:var(--caption);margin-top:16px;max-width:680px;}
+  .topic-chips{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;align-items:center;}
+  .topic-chips .lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-right:4px;}
+  .chip{border:1px solid var(--border);padding:8px 14px;font-family:'IBM Plex Mono',monospace;
+    font-size:13px;font-weight:500;letter-spacing:.5px;color:var(--heading);text-transform:uppercase;
+    transition:border-color .2s ease,color .2s ease;}
+  .chip:hover{border-color:var(--blue);color:var(--blue);}
+
+  /* ---------- Latest: hero-v6 image grid ---------- */
+  .hero-v6{display:grid;grid-template-columns:575px 1fr;gap:24px;align-items:stretch;height:640px;margin-top:40px;}
+  .hv6-main,.hv6-card,.hv6-wide{position:relative;overflow:hidden;background:var(--dark-0);cursor:pointer;}
+  .hv6-main > img,.hv6-card > img,.hv6-wide > img{width:100%;height:100%;object-fit:cover;
+    transition:transform .35s ease;will-change:transform;position:absolute;inset:0;}
+  .hv6-main:hover > img,.hv6-card:hover > img,.hv6-wide:hover > img{transform:scale(1.05);}
+  .hv6-shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.9) 92%);}
+  .hv6-cap{position:absolute;left:24px;right:24px;bottom:20px;display:flex;flex-direction:column;gap:12px;z-index:1;}
+  .hv6-cap .badge{color:#fff;border-color:#fff;background:transparent;}
+  .hv6-cap .author{color:#9eb4ff;}
+  .hv6-cap .date,.hv6-cap .rt{color:#c7cdda;}
+  .hv6-cap .sep{background:rgba(255,255,255,.5);}
+  .hv6-main .hv6-cap h2{color:#fff;font-size:34px;line-height:1.25;margin:0;letter-spacing:0;}
+  .hv6-main:hover .hv6-cap h2{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv6-right{display:grid;grid-template-rows:minmax(0,0.47fr) minmax(0,0.53fr);gap:24px;min-width:0;height:100%;}
+  .hv6-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;min-height:0;}
+  .hv6-card{min-height:0;}
+  .hv6-card .hv6-cap h3,.hv6-wide .hv6-cap h3{color:#fff;font-size:22px;line-height:1.3;margin:0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .hv6-card:hover .hv6-cap h3,.hv6-wide:hover .hv6-cap h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv6-wide{min-height:0;}
+  .hv6-wide .hv6-cap h3{font-size:28px;-webkit-line-clamp:2;}
+
+  /* latest secondary 3-up */
+  .hero-secondary{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);margin-top:40px;}
+  .hs-card{padding:40px 26px 32px;cursor:pointer;position:relative;transition:border-color .2s ease;}
+  .hs-card:first-child{padding-left:0;}
+  .hs-card + .hs-card{border-left:1px solid var(--border);}
+  .hs-card h3{font-size:24px;line-height:1.3;margin:16px 0;letter-spacing:.4px;}
+
+  /* ---------- Articles list ---------- */
+  .art-list{display:flex;flex-direction:column;border-top:1px solid var(--border);}
+  .art-row{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:32px 0;align-items:center;
+    border-bottom:1px solid var(--border);cursor:pointer;position:relative;transition:border-color .2s ease;}
+  .art-row .thumb{width:200px;height:200px;overflow:hidden;flex-shrink:0;}
+  .art-row .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .art-row:hover .thumb img{transform:scale(1.08);}
+  .art-row .body{min-width:0;display:flex;flex-direction:column;gap:14px;}
+  .art-row h3{font-size:26px;line-height:1.3;margin:0;letter-spacing:-.4px;}
+  .art-row:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .art-row .dek{font-size:15px;line-height:1.6;color:var(--caption);max-width:720px;}
+  .art-row .tags{display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.5px;text-transform:uppercase;color:var(--caption);}
+  .art-row .tags span::after{content:" ·";color:var(--border);}
+  .art-row .tags span:last-child::after{content:"";}
+  .list-foot{display:flex;justify-content:center;padding:32px 0 0;}
+  .show-more{border:1px solid var(--heading);color:var(--heading);background:transparent;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.5px;
+    text-transform:uppercase;padding:11px 24px;transition:background .2s ease,color .2s ease;}
+  .show-more:hover{background:var(--heading);color:#fff;}
+
+  /* ---------- Card hover grammar (light cards) ---------- */
+  .hs-card::before,.art-row::before,.pod-card::before,.topic-cell::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:0;background:var(--hover-fill);
+    z-index:0;pointer-events:none;transition:height .35s ease;}
+  .hs-card:hover::before,.art-row:hover::before,.pod-card:hover::before,.topic-cell:hover::before{height:100%;}
+  .hs-card > *,.art-row > *,.pod-card > *,.topic-cell > *{position:relative;z-index:1;}
+  .hs-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  @media (hover:none){
+    .hs-card:hover::before,.art-row:hover::before,.pod-card:hover::before,.topic-cell:hover::before{height:0;}
+    .art-row:hover .thumb img{transform:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hs-card::before,.art-row::before,.pod-card::before,.topic-cell::before,
+    .art-row .thumb img,.hv6-main > img,.hv6-card > img,.hv6-wide > img{transition:none;}
+  }
+
+  /* ---------- Resources (cream band, whitepaper cards) ---------- */
+  .res-section{background:var(--band-events);padding:80px 0;margin-top:110px;}
+  .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .res-card{background:var(--band-events-card);border:1px solid var(--border);padding:32px;
+    display:flex;flex-direction:column;gap:16px;cursor:pointer;position:relative;overflow:hidden;
+    transition:box-shadow .2s ease,border-color .2s ease;}
+  .res-card::before{content:"";position:absolute;left:0;right:0;top:0;height:0;background:var(--band-events-fill);
+    z-index:0;pointer-events:none;transition:height .35s ease;}
+  .res-card:hover::before{height:100%;}
+  .res-card:hover{border-color:var(--band-events-border);box-shadow:0 10px 28px -12px rgba(0,0,0,.18);}
+  .res-card > *{position:relative;z-index:1;}
+  .res-card h3{font-size:23px;line-height:1.3;letter-spacing:-.3px;margin:0;}
+  .res-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .res-card .by{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--caption);}
+  .res-btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:auto;
+    border:1px solid var(--heading);color:var(--heading);background:transparent;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.5px;
+    text-transform:uppercase;padding:9px 16px;transition:background .2s ease,color .2s ease;}
+  .res-btn:hover{background:var(--heading);color:#fff;}
+
+  /* ---------- Podcasts ---------- */
+  .pod-grid{display:grid;grid-template-columns:600px 1fr;gap:24px;align-items:stretch;}
+  .pod-feature{position:relative;overflow:hidden;background:var(--dark-0);cursor:pointer;min-height:480px;}
+  .pod-feature > img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+    transition:transform .35s ease;will-change:transform;}
+  .pod-feature:hover > img{transform:scale(1.05);}
+  .pod-feature .shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 20%,#000 84.6%);}
+  .pod-feature .cap{position:absolute;left:24px;right:24px;bottom:20px;display:flex;flex-direction:column;gap:14px;z-index:1;}
+  .pod-feature .cap .badge{color:#fff;border-color:#fff;background:transparent;}
+  .pod-feature .cap h3{color:#fff;font-size:32px;line-height:1.25;margin:0;letter-spacing:0;}
+  .pod-feature:hover .cap h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .pod-feature .cap p{color:#cbd5e1;font-size:14px;line-height:1.6;}
+  .pod-feature .cap .rt{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;}
+  .play-badge{position:absolute;left:24px;top:24px;width:52px;height:52px;border-radius:50%;
+    background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:2;
+    pointer-events:none;transition:background .2s ease;}
+  .play-badge svg{width:18px;height:18px;color:#fff;margin-left:2px;}
+  .pod-feature:hover .play-badge{background:var(--mint);}
+  .pod-eps{display:flex;flex-direction:column;gap:24px;}
+  .pod-card{border:1px solid var(--border);padding:24px;cursor:pointer;position:relative;overflow:hidden;
+    flex:1;display:flex;}
+  .pod-card .body{display:flex;flex-direction:column;justify-content:space-between;gap:16px;width:100%;}
+  .pod-card h3{font-size:22px;line-height:1.3;margin:0;letter-spacing:.4px;}
+  .pod-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .pod-card .ep{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--mint-600);}
+
+  /* ---------- Video band (green) ---------- */
+  .video-section{background:var(--band-video);padding:80px 0;margin-top:110px;}
+  .vid-grid{display:grid;grid-template-columns:500px 1fr;gap:32px;align-items:start;}
+  .vid-feature{display:flex;flex-direction:column;gap:24px;cursor:pointer;}
+  .vid-img{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--dark-0);}
+  .vid-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .vid-feature:hover .vid-img img{transform:scale(1.05);}
+  .vid-feature:hover .play-badge{background:var(--mint);}
+  .vid-body h3{font-size:28px;line-height:1.3;margin:14px 0;letter-spacing:.4px;}
+  .vid-feature:hover .vid-body h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .vid-body .dek{font-size:15px;line-height:1.6;color:var(--caption);}
+  .vid-body .meta{margin-top:14px;}
+  .vid-list{display:flex;flex-direction:column;gap:24px;}
+  .vid-card{display:flex;gap:20px;align-items:stretch;background:var(--band-video-card);border:1px solid var(--border);
+    cursor:pointer;position:relative;overflow:hidden;}
+  .vid-card .thumb{width:170px;flex-shrink:0;overflow:hidden;position:relative;}
+  .vid-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .vid-card:hover .thumb img{transform:scale(1.08);}
+  .vid-card .body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px 16px 16px 0;gap:12px;}
+  .vid-card h3{font-size:21px;line-height:1.3;margin:0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .vid-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .vid-card:hover{background:var(--band-video-card-hover);}
+
+  /* ---------- Explore topics ---------- */
+  .topic-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-left:1px solid var(--border);}
+  .topic-cell{border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:24px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s ease;}
+  .topic-cell .t-name{font-family:'Young Serif',Georgia,serif;font-size:19px;color:var(--heading);letter-spacing:-.2px;}
+  .topic-cell .t-arrow{font-family:'IBM Plex Mono',monospace;color:var(--caption);transition:color .2s ease;}
+  .topic-cell:hover .t-name{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .topic-cell:hover .t-arrow{color:var(--mint-600);}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:110px;border-top:1px solid var(--border);padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .brand .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:22px;color:var(--heading);letter-spacing:-1px;}
+  footer .brand .mint{color:var(--mint);}
+  footer .copy{font-size:13px;color:var(--caption);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1279px){:root{--gutter:40px;}}
+  @media (max-width:1200px){
+    .hero-v6{grid-template-columns:1fr;height:auto;}
+    .hv6-main{aspect-ratio:16/11;}
+    .hv6-right{grid-template-rows:auto auto;}
+    .hv6-card{aspect-ratio:4/3;}
+    .hv6-wide{aspect-ratio:21/9;}
+    .pod-grid{grid-template-columns:1fr;}
+    .pod-feature{aspect-ratio:16/10;min-height:0;}
+    .vid-grid{grid-template-columns:1fr;}
+    .topic-grid{grid-template-columns:1fr 1fr 1fr;}
+  }
+  @media (max-width:900px){
+    .res-grid{grid-template-columns:1fr;}
+    .hero-secondary{grid-template-columns:1fr;}
+    .hs-card{padding:24px 0;border-left:none !important;border-top:1px solid var(--border);}
+    .hs-card:first-child{border-top:none;}
+    .topic-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:860px){
+    :root{--gutter:24px;}
+    .primary-nav{display:none;}
+    .masthead h1{font-size:38px;}
+    .section-head h2{font-size:30px;}
+  }
+  @media (max-width:560px){
+    :root{--gutter:16px;}
+    .secondary-nav{display:none;}
+    .insights-link{display:none;}
+    .brand .tc{font-size:28px;}
+    .masthead{padding-top:24px;padding-bottom:28px;}
+    .masthead h1{font-size:30px;letter-spacing:-1px;}
+    .masthead .desc{font-size:15px;}
+    .section{padding-top:48px;}
+    .section-head h2{font-size:24px;}
+    .hv6-main{aspect-ratio:3/4;}
+    .hv6-cap{left:16px;right:16px;bottom:16px;}
+    .hv6-main .hv6-cap h2{font-size:24px;}
+    .hv6-row{grid-template-columns:1fr;}
+    .hv6-card{aspect-ratio:16/10;}
+    .hv6-wide{aspect-ratio:16/10;}
+    .hv6-card .hv6-cap h3,.hv6-wide .hv6-cap h3{font-size:20px;}
+    .art-row{grid-template-columns:1fr;gap:14px;padding:24px 0;}
+    .art-row .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .art-row h3{font-size:21px;}
+    .res-section,.video-section{padding:48px 0;margin-top:48px;}
+    .res-card{padding:20px;}
+    .pod-feature .cap h3{font-size:23px;}
+    .vid-card{flex-direction:column;}
+    .vid-card .thumb{width:100%;aspect-ratio:16/10;}
+    .vid-card .body{padding:16px;}
+    .topic-grid{grid-template-columns:1fr;}
+    footer{margin-top:48px;}
+    footer .wrap{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="top-bar">
+    <a class="brand" href="#"><span class="tc">techcircle</span></a>
+    <nav class="primary-nav">
+      <a class="nav-link" href="#">News</a>
+      <a class="nav-link" href="#">Opinion</a>
+      <a class="nav-link" href="#">Podcasts</a>
+      <a class="nav-link" href="#">Videos</a>
+      <a class="nav-link" href="#">Events</a>
+    </nav>
+    <div class="top-right">
+      <a class="insights-link" href="#">TC Insights</a>
+      <a class="login-link" href="#">Login</a>
+    </div>
+  </div>
+</header>
+<nav class="secondary-nav">
+  <div class="secondary-nav-inner">
+    <a class="snav-link active" href="#">AI</a>
+    <a class="snav-link" href="#">Cloud</a>
+    <a class="snav-link" href="#">IT Leadership</a>
+    <a class="snav-link" href="#">Security</a>
+    <a class="snav-link" href="#">Data</a>
+    <a class="snav-link" href="#">Startups</a>
+    <a class="snav-link" href="#">Enterprise</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- ===== Breadcrumb + masthead ===== -->
+  <div class="crumbs">
+    <a href="#">Home</a><span class="c-sep">/</span><span>Artificial Intelligence</span>
+  </div>
+  <div class="masthead">
+    <div class="kicker">Topic</div>
+    <h1>Artificial Intelligence</h1>
+    <p class="desc">News, how-tos, features, reviews, and videos on enterprise AI — from agentic workflows and governance to the infrastructure underneath it all.</p>
+    <div class="topic-chips">
+      <span class="lbl">Related topics</span>
+      <a class="chip" href="#">Generative AI</a>
+      <a class="chip" href="#">Machine Learning</a>
+      <a class="chip" href="#">Natural Language Processing</a>
+      <a class="chip" href="#">Robotics</a>
+    </div>
+  </div>
+
+  <!-- ===== Latest from today ===== -->
+  <section class="section" style="padding-top:56px;">
+    <div class="section-head">
+      <div class="left">
+        <div class="bar"></div>
+        <div><h2>Latest from today</h2><p class="sub">The AI stories shaping the enterprise agenda right now</p></div>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+
+    <div class="hero-v6">
+      <article class="hv6-main">
+        <img src="https://picsum.photos/seed/tc-ai-agents/900/1100" alt="">
+        <div class="hv6-shade"></div>
+        <div class="hv6-cap">
+          <div class="badges"><span class="badge">Opinion</span></div>
+          <h2>Accelerating financial closes with help from AI agents: a pragmatic guide</h2>
+          <div class="meta"><span class="author">Eamonn O'Neill</span><span class="sep"></span><span class="date">Jul 10, 2026</span><span class="sep"></span><span class="rt">6 min</span></div>
+        </div>
+      </article>
+      <div class="hv6-right">
+        <div class="hv6-row">
+          <article class="hv6-card">
+            <img src="https://picsum.photos/seed/tc-ai-token/640/520" alt="">
+            <div class="hv6-shade"></div>
+            <div class="hv6-cap">
+              <div class="badges"><span class="badge">Opinion</span></div>
+              <h3>Your next insider threat doesn't have a badge. It has an API token</h3>
+              <div class="meta"><span class="author">Krti Tallam</span><span class="sep"></span><span class="date">Jul 10</span></div>
+            </div>
+          </article>
+          <article class="hv6-card">
+            <img src="https://picsum.photos/seed/tc-ai-hiring/640/520" alt="">
+            <div class="hv6-shade"></div>
+            <div class="hv6-cap">
+              <div class="badges"><span class="badge">Feature</span></div>
+              <h3>AI's potential to infect the hiring process with bias</h3>
+              <div class="meta"><span class="author">Sarah White</span><span class="sep"></span><span class="date">Jul 10</span></div>
+            </div>
+          </article>
+        </div>
+        <article class="hv6-wide">
+          <img src="https://picsum.photos/seed/tc-ai-f1/1200/560" alt="">
+          <div class="hv6-shade"></div>
+          <div class="hv6-cap">
+            <div class="badges"><span class="badge">Opinion</span></div>
+            <h3>Operate like a Formula 1 team: the new AI operating model</h3>
+            <div class="meta"><span class="author">Karthik Chakkarapani</span><span class="sep"></span><span class="date">Jul 10, 2026</span><span class="sep"></span><span class="rt">11 min</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="hero-secondary">
+      <article class="hs-card">
+        <div class="badges"><span class="badge">Feature</span></div>
+        <h3>IT isn't holding AI back — your business processes are</h3>
+        <div class="meta"><span class="author">Grant Gross</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+      </article>
+      <article class="hs-card">
+        <div class="badges"><span class="badge">Feature</span></div>
+        <h3>10 courses for IT leaders navigating AI change management</h3>
+        <div class="meta"><span class="author">Sarah White</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+      </article>
+      <article class="hs-card">
+        <div class="badges"><span class="badge">Opinion</span></div>
+        <h3>Why the US is at risk of losing the AI talent and productivity war</h3>
+        <div class="meta"><span class="author">Shane Shook</span><span class="sep"></span><span class="date">Jul 9, 2026</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Articles ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="left">
+        <div class="bar"></div>
+        <div><h2>Articles</h2><p class="sub">Every AI story, newest first</p></div>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+
+    <div class="art-list">
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-quantum/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span></div>
+          <h3>AI changed our cloud strategy. Quantum changes the questions behind it</h3>
+          <p class="dek">Cloud strategy has moved from architecture to operations — and quantum is now forcing long-horizon risk and decision planning.</p>
+          <div class="meta"><span class="author">Maman Ibrahim</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">9 min</span></div>
+          <div class="tags"><span>Artificial Intelligence</span><span>IT Strategy</span><span>Quantum Computing</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-govern/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span></div>
+          <h3>Your AI rollout is succeeding. Your organization is failing</h3>
+          <p class="dek">Technical wins are piling up liability where governance and accountability infrastructure hasn't kept pace with regulators.</p>
+          <div class="meta"><span class="author">Patrick McGarry</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">8 min</span></div>
+          <div class="tags"><span>Artificial Intelligence</span><span>IT Leadership</span><span>Regulation</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-roi/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Feature</span></div>
+          <h3>Why is it so hard to measure the ROI of AI?</h3>
+          <p class="dek">Everyone is losing money on AI — and making money on it. Why straight answers about AI returns remain so elusive.</p>
+          <div class="meta"><span class="author">Maria Korolov</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">10 min</span></div>
+          <div class="tags"><span>Budgeting</span><span>C-Suite</span><span>CIO</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-usme/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Interview</span></div>
+          <h3>The tech behind patient-first transformation at USME</h3>
+          <p class="dek">CIO Antonio Marin on aligning tech vision with innovation and organizational transformation in healthcare.</p>
+          <div class="meta"><span class="author">Carl Friedmann</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">6 min</span></div>
+          <div class="tags"><span>CIO</span><span>CIO 100</span><span>Leadership Live</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-workflow/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span></div>
+          <h3>The AI ROI gap isn't a model problem. It's a workflow problem</h3>
+          <p class="dek">Models aren't failing — most industries simply lack the structured workflows needed to trust their output.</p>
+          <div class="meta"><span class="author">Pete Johnson</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">9 min</span></div>
+          <div class="tags"><span>Artificial Intelligence</span><span>Digital Transformation</span><span>IT Leadership</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-claude/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">News</span></div>
+          <h3>Anthropic shines a light into the Claude AI black hole</h3>
+          <p class="dek">New visibility into why a model acts as it does could reshape enterprise AI strategy — and purchase criteria.</p>
+          <div class="meta"><span class="author">Evan Schuman</span><span class="sep"></span><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">10 min</span></div>
+          <div class="tags"><span>Artificial Intelligence</span><span>IT Strategy</span><span>Risk Management</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-spacex/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">News</span></div>
+          <h3>SpaceXAI wants to compete on AI infrastructure, not just AI models</h3>
+          <p class="dek">Combining models, supercomputing, satellites, and launch capability into an ambitious infrastructure play.</p>
+          <div class="meta"><span class="author">Taryn Plumb</span><span class="sep"></span><span class="date">Jul 7, 2026</span><span class="sep"></span><span class="rt">5 min</span></div>
+          <div class="tags"><span>Artificial Intelligence</span><span>Data Center</span><span>Generative AI</span></div>
+        </div>
+      </article>
+      <article class="art-row">
+        <div class="thumb"><img src="https://picsum.photos/seed/tc-talent/420/420" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Feature</span></div>
+          <h3>Build or buy? Smart CIOs know the answer for AI talent</h3>
+          <p class="dek">Talent-market dynamics point one way: turn in-house staff into AI builders and power users through targeted training.</p>
+          <div class="meta"><span class="author">Grant Gross</span><span class="sep"></span><span class="date">Jul 7, 2026</span><span class="sep"></span><span class="rt">5 min</span></div>
+          <div class="tags"><span>C-Suite</span><span>CIO</span><span>IT Skills</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="list-foot"><button class="show-more">Show more →</button></div>
+  </section>
+</main>
+
+<!-- ===== Resources (cream band) ===== -->
+<section class="res-section">
+  <div class="wrap">
+    <div class="section-head" style="padding-bottom:32px;">
+      <div class="left">
+        <div class="bar"></div>
+        <div><h2>Resources</h2><p class="sub">Whitepapers and research for AI decision-makers</p></div>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+    <div class="res-grid">
+      <article class="res-card">
+        <div class="badges"><span class="badge">Whitepaper</span></div>
+        <h3>How IT leaders can navigate the new era of work</h3>
+        <span class="by">By HP Inc · 09 Jul 2026</span>
+        <button class="res-btn">Download →</button>
+      </article>
+      <article class="res-card">
+        <div class="badges"><span class="badge">Whitepaper</span></div>
+        <h3>Maximize productivity with AI workstation laptops</h3>
+        <span class="by">By HP Inc · 09 Jul 2026</span>
+        <button class="res-btn">Download →</button>
+      </article>
+      <article class="res-card">
+        <div class="badges"><span class="badge">Whitepaper</span></div>
+        <h3>Evaluating the future of the AI PC</h3>
+        <span class="by">By HP Inc · 09 Jul 2026</span>
+        <button class="res-btn">Download →</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Podcasts ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <div class="bar"></div>
+      <div><h2>Podcasts</h2><p class="sub">Conversations on risk, reward, and real-world AI deployment</p></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <div class="pod-grid">
+    <article class="pod-feature">
+      <img src="https://picsum.photos/seed/tc-pod/900/720" alt="">
+      <div class="shade"></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="cap">
+        <div class="badges"><span class="badge">Podcast Series</span></div>
+        <h3>The AI Advantage: navigating risk, reward, and real-world deployment</h3>
+        <p>Most AI pilots never get off the ground. Five episodes on moving from proof-of-concept to measurable business outcomes.</p>
+        <span class="rt">5 episodes · Artificial Intelligence</span>
+      </div>
+    </article>
+    <div class="pod-eps">
+      <article class="pod-card">
+        <div class="body">
+          <div>
+            <span class="ep">Episode 05</span>
+            <h3 style="margin-top:10px;">The CIO's view on starting, and restarting, AI initiatives</h3>
+          </div>
+          <div class="meta"><span class="date">20 min</span><span class="sep"></span><span class="rt">Artificial Intelligence</span></div>
+        </div>
+      </article>
+      <article class="pod-card">
+        <div class="body">
+          <div>
+            <span class="ep">Episode 04</span>
+            <h3 style="margin-top:10px;">From fear to framework: building a secure and compliant AI operating model</h3>
+          </div>
+          <div class="meta"><span class="date">29 min</span><span class="sep"></span><span class="rt">Artificial Intelligence</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Video on demand (green band) ===== -->
+<section class="video-section">
+  <div class="wrap">
+    <div class="section-head" style="padding-bottom:32px;">
+      <div class="left">
+        <div class="bar"></div>
+        <div><h2>Video on demand</h2><p class="sub">Demos and deep-dives from the AI frontier</p></div>
+      </div>
+      <a class="view-all" href="#">See all videos</a>
+    </div>
+    <div class="vid-grid">
+      <article class="vid-feature">
+        <div class="vid-img">
+          <img src="https://picsum.photos/seed/tc-vid1/900/560" alt="">
+          <div class="play-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="vid-body">
+          <div class="badges"><span class="badge">Video</span></div>
+          <h3>Watch Halcyon stop ransomware before it disrupts business operations</h3>
+          <p class="dek">A demonstration of detecting, blocking, and recovering from ransomware attacks before they hit operations.</p>
+          <div class="meta"><span class="date">Jul 8, 2026</span><span class="sep"></span><span class="rt">20 min</span></div>
+        </div>
+      </article>
+      <div class="vid-list">
+        <article class="vid-card">
+          <div class="thumb"><img src="https://picsum.photos/seed/tc-vid2/380/300" alt=""></div>
+          <div class="body">
+            <h3>Backstory uses AI to bring greater accuracy to sales forecasting</h3>
+            <div class="meta"><span class="date">Jul 1, 2026</span><span class="sep"></span><span class="rt">15 min</span></div>
+          </div>
+        </article>
+        <article class="vid-card">
+          <div class="thumb"><img src="https://picsum.photos/seed/tc-vid3/380/300" alt=""></div>
+          <div class="body">
+            <h3>How Nintex uses AI agents to scale workflow automation</h3>
+            <div class="meta"><span class="date">Jun 24, 2026</span><span class="sep"></span><span class="rt">14 min</span></div>
+          </div>
+        </article>
+        <article class="vid-card">
+          <div class="thumb"><img src="https://picsum.photos/seed/tc-vid4/380/300" alt=""></div>
+          <div class="body">
+            <h3>How CodeRabbit tackles the AI code review bottleneck</h3>
+            <div class="meta"><span class="date">Jun 18, 2026</span><span class="sep"></span><span class="rt">12 min</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Explore a topic ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <div class="bar"></div>
+      <div><h2>Explore a topic</h2><p class="sub">Browse the full TechCircle coverage map</p></div>
+    </div>
+    <a class="view-all" href="#">All topics</a>
+  </div>
+  <div class="topic-grid">
+    <a class="topic-cell" href="#"><span class="t-name">Generative AI</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Analytics</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Careers</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Cloud Computing</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Enterprise Applications</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">IT Leadership</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">IT Operations</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Security</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Data Management</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Data Center</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Networking</span><span class="t-arrow">→</span></a>
+    <a class="topic-cell" href="#"><span class="t-name">Software Development</span><span class="t-arrow">→</span></a>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="tc">tech<span class="mint">circle</span></span></div>
+    <div class="copy">© 2026 TechCircle · HT Digital. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
