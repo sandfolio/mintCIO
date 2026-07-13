@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechCircle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Lato:wght@700;800;900&family=Young+Serif&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --heading:#030407;
+    --text-primary:#161618;
+    --caption:#445372;
+    --blue:#0069ff;
+    --mint:#f99d1c;
+    --mint-600:#c47b14;
+    --border:#e0e2e7;
+    --gray-100:#f0f1f3;
+    --neutral-200:#eaecf0;
+    --surface:#ffffff;
+    --max:1440px;
+    --gutter:0px;
+    --content:1280px;
+    font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--text-primary);
+    background:var(--surface);
+    line-height:1.4;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  ul{list-style:none;}
+
+  .wrap{max-width:var(--content);margin:0 auto;padding:0 var(--gutter);}
+
+  /* ---------- Header (single bar: logo + nav + search/login) ---------- */
+  header{background:#000;}
+  .top-bar{max-width:1280px;margin:0 auto;padding:16px 0;
+    display:flex;align-items:center;gap:32px;}
+  .brand{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .brand .logo{height:34px;width:auto;display:block;}
+  .brand .logo-img{height:40px;width:auto;display:block;}
+  .brand .tc{font-family:'Lato',sans-serif;font-weight:800;font-size:34px;
+    color:#fff;line-height:1;letter-spacing:-1px;}
+
+  /* hamburger (hidden on desktop, shown on mobile) */
+  .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;
+    width:40px;height:40px;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0;}
+  .nav-toggle span{display:block;height:2px;width:100%;background:#fff;border-radius:2px;
+    transition:transform .2s ease,opacity .2s ease;}
+
+  /* primary nav next to logo */
+  .primary-nav{display:flex;align-items:center;gap:28px;}
+  .primary-nav > .nav-link, .primary-nav > .nav-item > .nav-link{
+    font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;
+    color:#fff;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;
+    display:flex;align-items:center;gap:6px;cursor:pointer;background:none;border:none;padding:0;}
+  .primary-nav .nav-link:hover{color:var(--mint);}
+  .nav-item{position:relative;}
+  .nav-item .caret{width:9px;height:9px;flex-shrink:0;transition:transform .2s ease;}
+  .nav-item.open .caret{transform:rotate(180deg);}
+  /* dropdown */
+  .nav-dropdown{position:absolute;top:calc(100% + 14px);left:0;min-width:260px;
+    background:#fff;border:1px solid var(--border);box-shadow:0 12px 30px rgba(0,0,0,.18);
+    padding:8px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity .18s ease,transform .18s ease,visibility .18s;}
+  .nav-item:hover .nav-dropdown, .nav-item.open .nav-dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+  /* hover bridge so the gap doesn't drop the menu */
+  .nav-item::after{content:"";position:absolute;top:100%;left:0;right:0;height:16px;}
+  .nav-dropdown a{display:block;padding:10px 14px;font-family:'Poppins',sans-serif;
+    font-size:14px;font-weight:500;color:var(--heading);text-transform:none;letter-spacing:0;
+    white-space:nowrap;}
+  .nav-dropdown a .dd-sub{display:block;font-size:12px;font-weight:400;color:var(--caption);margin-top:2px;}
+  .nav-dropdown a:hover{background:#f6f7f9;color:var(--blue);}
+
+  /* right cluster */
+  .top-right{display:flex;align-items:center;gap:18px;margin-left:auto;flex-shrink:0;}
+  .insights-link{display:flex;align-items:center;justify-content:center;background:#11255e;
+    color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;
+    text-transform:uppercase;letter-spacing:.2px;padding:0 16px;height:36px;white-space:nowrap;}
+  .insights-link:hover{background:#19337f;}
+  .search{display:flex;align-items:center;background:#333;border:none;border-radius:0;
+    height:36px;padding:0 14px;gap:10px;width:200px;}
+  .search input{border:none;outline:none;font-size:13px;font-family:Arial,sans-serif;
+    width:100%;color:#fff;background:transparent;}
+  .search input::placeholder{color:#cfcfcf;}
+  .search button{display:flex;align-items:center;justify-content:center;color:#fff;}
+  .search svg{flex-shrink:0;color:#fff;}
+  .login-link{display:flex;align-items:center;gap:8px;color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14px;
+    text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;}
+  .login-link svg{flex-shrink:0;}
+  .login-link:hover{color:var(--mint);}
+
+  /* ---------- Mobile slide-in drawer ---------- */
+  .drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:998;
+    opacity:0;transition:opacity .25s ease;}
+  .drawer-backdrop.show{opacity:1;}
+  .mobile-drawer{position:fixed;top:0;right:0;height:100vh;width:300px;max-width:86vw;
+    background:#0b0f14;z-index:999;transform:translateX(100%);
+    transition:transform .25s ease;display:flex;flex-direction:column;overflow-y:auto;
+    box-shadow:-12px 0 30px rgba(0,0,0,.3);}
+  .mobile-drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;
+    padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.1);}
+  .drawer-title{font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;color:#94a3b8;}
+  .drawer-close{background:none;border:none;color:#fff;cursor:pointer;display:flex;padding:4px;}
+  .drawer-nav{display:flex;flex-direction:column;padding:8px 0;}
+  .drawer-nav > a,.drawer-group-btn{font-family:'Poppins',sans-serif;font-size:16px;font-weight:500;
+    color:#fff;text-transform:uppercase;letter-spacing:.3px;padding:16px 20px;
+    background:none;border:none;text-align:left;width:100%;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .drawer-nav > a:hover,.drawer-group-btn:hover{color:var(--mint);background:rgba(255,255,255,.04);}
+  .drawer-group-btn .caret{width:11px;height:11px;transition:transform .2s ease;}
+  .drawer-group.open .drawer-group-btn .caret{transform:rotate(180deg);}
+  .drawer-sub{max-height:0;overflow:hidden;transition:max-height .28s ease;}
+  .drawer-group.open .drawer-sub{max-height:320px;}
+  .drawer-sub a{display:block;padding:12px 20px 12px 34px;color:#cbd5e1;
+    font-family:'Poppins',sans-serif;font-size:14px;font-weight:500;}
+  .drawer-sub a .dd-sub{display:block;font-size:12px;font-weight:400;color:#8a93a6;margin-top:2px;}
+  .drawer-sub a:hover{color:var(--mint);background:rgba(255,255,255,.04);}
+
+  /* ---------- Secondary nav bar (grey, with dropdowns) ---------- */
+  .secondary-nav{background:var(--neutral-200);border-top:1px solid #d4d7de;}
+  .secondary-nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:stretch;justify-content:center;gap:4px;flex-wrap:wrap;}
+  .snav-item{position:relative;}
+  .snav-link{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
+    font-size:14px;font-weight:500;color:var(--heading);text-transform:uppercase;letter-spacing:.3px;
+    padding:14px 16px;background:none;border:none;cursor:pointer;white-space:nowrap;}
+  .snav-link:hover{color:var(--blue);}
+  .snav-item .caret{width:9px;height:9px;flex-shrink:0;transition:transform .2s ease;}
+  .snav-item.open .caret{transform:rotate(180deg);}
+  .snav-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:#fff;
+    border:1px solid var(--border);box-shadow:0 12px 30px rgba(0,0,0,.16);padding:6px;z-index:200;
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity .18s ease,transform .18s ease,visibility .18s;}
+  .snav-item.has-dd:hover .snav-dropdown,.snav-item.open .snav-dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+  .snav-dropdown a{display:block;padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:14px;
+    font-weight:500;color:var(--heading);text-transform:none;letter-spacing:0;white-space:nowrap;}
+  .snav-dropdown a:hover{background:#f6f7f9;color:var(--blue);}
+  /* keep the rightmost dropdowns from overflowing the viewport */
+  .snav-item:nth-last-child(-n+2) .snav-dropdown{left:auto;right:0;}
+
+  /* ---------- Shared bits ---------- */
+  .badges{display:flex;gap:16px;}
+  .badge{border:1px solid var(--border);border-radius:0;padding:4px 8px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:1.44px;
+    color:var(--caption);text-transform:uppercase;line-height:1.5;white-space:nowrap;}
+  .meta{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;
+    font-size:13px;line-height:1.4;}
+  .meta .author{color:var(--blue);font-weight:500;}
+  .meta .sep{width:1px;height:15px;background:var(--border);}
+  .meta .date{color:var(--caption);}
+
+  h1,h2,h3,h4{font-family:'Young Serif',Georgia,'Times New Roman',serif;
+    color:var(--heading);font-weight:400;letter-spacing:.4px;}
+
+  .section{padding-top:110px;}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;
+    padding-bottom:24px;}
+  .section-head .left{display:flex;gap:9px;}
+  .section-head .bar{width:3px;background:#F99D1C;align-self:stretch;}
+  .section-head h2{font-size:40px;line-height:1.15;letter-spacing:-1px;}
+  .section-head .sub{font-size:14px;color:var(--caption);margin-top:14px;}
+  .view-all{border:1px solid var(--border);border-radius:0;padding:8px 16px;
+    font-size:15px;font-weight:600;color:var(--heading);white-space:nowrap;}
+  .view-all:hover{background:var(--gray-100);}
+
+  /* ---------- Hero block (Figma: Mint CIO) ---------- */
+  .hero{display:grid;grid-template-columns:632px 1px 1fr;gap:24px;align-items:start;}
+  .hero-feature{position:relative;border-radius:0;overflow:hidden;width:632px;height:632px;max-width:100%;}
+  .hero-feature > img{width:100%;height:100%;object-fit:cover;}
+  .hero-card{position:absolute;left:152px;right:0;bottom:0;background:#fff;
+    border-radius:0;padding:16px 0 0 32px;}
+  .hero-card h2{font-size:28px;line-height:1.3;margin:8px 0 0;letter-spacing:1.12px;}
+  .hero-card .meta{margin-top:16px;}
+  .hero-divider{background:var(--border);width:1px;align-self:stretch;}
+
+  .hero-list{display:flex;flex-direction:column;}
+  .hero-item{display:grid;grid-template-columns:132px 1fr;gap:24px;padding:16px 0;align-items:start;}
+  .hero-item:first-child{padding-top:0;}
+  .hero-item + .hero-item{border-top:1px solid var(--border);}
+  .hero-item .thumb{width:132px;height:132px;border-radius:0;overflow:hidden;flex-shrink:0;}
+  .hero-item .thumb img{width:100%;height:100%;object-fit:cover;}
+  .hero-item .body{display:flex;flex-direction:column;min-width:0;}
+  .hero-item h3{font-size:20px;line-height:1.3;margin:8px 0 0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .hero-item .meta{margin-top:16px;}
+
+  /* ---------- New v3 hero: bordered card + dark navy panel ---------- */
+  .hero-v3{display:flex;align-items:stretch;height:600px;width:100%;
+    border:1px solid var(--border);background:#fff;overflow:hidden;
+    box-shadow:0 10px 28px -10px rgba(0,0,0,.08);}
+  .hv3-feature{position:relative;width:850px;flex-shrink:0;overflow:hidden;}
+  .hv3-feature > img{width:100%;height:100%;object-fit:cover;}
+  .hv3-overlay{position:absolute;left:0;bottom:-1px;width:769px;max-width:100%;
+    background:rgba(255,255,255,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-top:1px solid var(--border);padding:16px 32px;
+    display:flex;flex-direction:column;gap:8px;}
+  .hv3-overlay h2{font-size:28px;line-height:1.25;margin:0;letter-spacing:.56px;}
+  .hv3-overlay .meta{margin-top:0;}
+
+  .hv3-panel{flex:1;min-width:0;display:flex;flex-direction:column;
+    background:linear-gradient(180deg,#0b0f14,#111827);border-left:1px solid #242a46;
+    padding-top:16px;}
+  .hv3-panel-head{display:flex;gap:12px;align-items:stretch;padding:0 20px;}
+  .hv3-bar{width:3px;background:#F99D1C;align-self:stretch;flex-shrink:0;}
+  .hv3-panel-title h3{color:#fff;font-size:24px;line-height:1.2;margin:0;letter-spacing:.4px;}
+  .hv3-panel-title p{font-family:'IBM Plex Mono',monospace;color:#cbd5e1;font-size:14px;
+    line-height:1.4;margin:6px 0 0;}
+  .hv3-list{flex:1;display:flex;flex-direction:column;margin-top:16px;}
+  .hv3-item{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;
+    padding:20px;background:#0f172a;border-top:1px solid rgba(255,255,255,.08);
+    position:relative;cursor:pointer;}
+  .hv3-item .badges{margin-bottom:0;}
+  .hv3-item .badge{color:#cbd5e1;border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.04);}
+  .hv3-item h3{color:#fff;font-size:20px;line-height:1.35;margin:8px 0 0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .hv3-item .meta{margin-top:14px;}
+  .hv3-item .author{color:#93c5fd;}
+  .hv3-item .date{color:#94a3b8;}
+  .hv3-item .sep{background:rgba(255,255,255,.2);}
+  /* dark-panel hover: subtle lift + title underline + image zoom on feature */
+  .hv3-item:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv3-item:hover{background:#13203a;}
+  .hv3-feature{cursor:pointer;}
+  .hv3-feature > img{transition:transform .35s ease;will-change:transform;}
+  .hv3-feature:hover > img{transform:scale(1.05);}
+  .hv3-feature:hover .hv3-overlay h2{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+
+  /* ---------- New v5 hero: dark feature card + 4-item thumbnail list ---------- */
+  .hero-v5{display:grid;grid-template-columns:700px 1px 1fr;gap:24px;align-items:start;}
+  .hv5-feature{position:relative;width:700px;max-width:100%;height:632px;overflow:hidden;
+    background:#0b0f14;cursor:pointer;}
+  .hv5-feature > img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .hv5-feature:hover > img{transform:scale(1.05);}
+  .hv5-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(0,0,0,.92) 88%);}
+  .hv5-caption{position:absolute;left:24px;right:24px;bottom:24px;display:flex;flex-direction:column;gap:16px;z-index:1;}
+  .hv5-caption .badge{color:#fff;border-color:#fff;background:transparent;}
+  .hv5-caption h2{color:#fff;font-size:42px;line-height:1.25;margin:0;letter-spacing:0;}
+  .hv5-feature:hover .hv5-caption h2{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv5-caption .author{color:#9eb4ff;}
+  .hv5-caption .date{color:#c7cdda;}
+  .hv5-caption .sep{background:rgba(255,255,255,.5);}
+
+  .hv5-divider{background:var(--border);width:1px;align-self:stretch;}
+  .hv5-list{display:flex;flex-direction:column;}
+  .hv5-item{display:grid;grid-template-columns:132px 1fr;gap:24px;padding:16px 0;align-items:start;
+    position:relative;cursor:pointer;}
+  .hv5-item:first-child{padding-top:0;}
+  .hv5-item + .hv5-item{border-top:1px solid var(--border);}
+  .hv5-item .thumb{width:132px;height:132px;overflow:hidden;flex-shrink:0;position:relative;}
+  /* play badge overlay for playable hero articles */
+  .play-badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.55);
+    display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;
+    transition:background .2s ease;}
+  .play-badge svg{width:16px;height:16px;color:#fff;margin-left:2px;}
+  .hv5-item:hover .play-badge{background:var(--mint);}
+  .hv5-item .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .hv5-item:hover .thumb img{transform:scale(1.08);}
+  .hv5-item .body{display:flex;flex-direction:column;min-width:0;}
+  .hv5-item h3{font-size:22px;line-height:1.3;margin:8px 0 0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .hv5-item:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .hv5-item .meta{margin-top:14px;}
+
+  /* ---------- CIO Video section (mint-green bg, full-bleed) ---------- */
+  .ciovideo-section{background:#e5f5e5;padding:80px 0;margin-top:48px;}
+  .ciovideo-grid{display:grid;grid-template-columns:500px 1fr;gap:32px;align-items:start;}
+  .ciov-feature{display:flex;flex-direction:column;gap:32px;cursor:pointer;}
+  .ciov-img{width:500px;max-width:100%;height:500px;overflow:hidden;}
+  .ciov-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .ciov-feature:hover .ciov-img img{transform:scale(1.05);}
+  .ciov-body h3{font-size:28px;line-height:1.3;margin:16px 0;letter-spacing:.4px;}
+  .ciov-feature:hover .ciov-body h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .ciov-body .badges{margin-bottom:0;}
+  .ciov-list{display:flex;flex-direction:column;gap:24px;align-self:stretch;}
+  .ciov-card{display:flex;gap:20px;align-items:stretch;background:#eff5ef;border:1px solid var(--border);
+    cursor:pointer;position:relative;overflow:hidden;min-height:0;}
+  .ciov-card .thumb{width:170px;flex-shrink:0;overflow:hidden;align-self:stretch;}
+  .ciov-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .ciov-card:hover .thumb img{transform:scale(1.08);}
+  .ciov-card .body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;
+    padding:16px 16px 16px 0;}
+  .ciov-card h3{font-size:24px;line-height:1.3;margin:8px 0 0;letter-spacing:.4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .ciov-card .meta{margin-top:14px;}
+  .ciov-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .ciov-card:hover{background:#e6efe6;}
+
+  /* ---------- Podcast section ---------- */
+  .podcast-top{display:grid;grid-template-columns:624px 1fr;gap:24px;align-items:stretch;height:640px;}
+  .pod-hero{position:relative;height:100%;overflow:hidden;background:#ded5c4;cursor:pointer;}
+  .pod-hero > img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .pod-hero:hover > img{transform:scale(1.05);}
+  .pod-hero .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 20%,#000 84.6%);}
+  .pod-hero .caption{position:absolute;left:24px;right:24px;bottom:16px;display:flex;flex-direction:column;gap:16px;}
+  .pod-hero .caption .badge{color:#fff;border-color:#fff;background:transparent;}
+  .pod-hero .caption h2{color:#fff;font-size:42px;line-height:1.3;margin:0;letter-spacing:0;}
+  .pod-hero:hover .caption h2{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .pod-hero .caption .author{color:#9eb4ff;}
+  .pod-hero .caption .date{color:#8791b7;}
+  .pod-hero .caption .sep{background:#f0f1f3;}
+
+  .pod-feature{display:flex;flex-direction:column;border-bottom:1px solid var(--border);cursor:pointer;overflow:hidden;}
+  .pod-img{flex:1;min-height:0;overflow:hidden;position:relative;}
+  .pod-play{left:24px;top:auto;bottom:24px;transform:none;width:56px;height:56px;}
+  .pod-play svg{width:18px;height:18px;}
+  .pod-feature:hover .pod-play{background:var(--mint);}
+  .pod-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .pod-feature:hover .pod-img img{transform:scale(1.05);}
+  .pod-body{background:#fff;padding:16px 0;display:flex;flex-direction:column;gap:16px;}
+  .pod-body h3{font-size:34px;line-height:1.3;margin:0;letter-spacing:0;}
+  .pod-feature:hover .pod-body h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .pod-body .badges{margin-bottom:0;}
+
+  .podcast-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+    border-top:1px solid var(--border);margin-top:40px;padding-top:40px;}
+  .pod-card{border:1px solid var(--border);padding:24px;cursor:pointer;position:relative;overflow:hidden;
+    min-height:185px;display:flex;}
+  .pod-card .body{display:flex;flex-direction:column;justify-content:space-between;gap:16px;width:100%;}
+  .pod-card h3{font-size:24px;line-height:1.3;margin:0;letter-spacing:.4px;}
+  .pod-card:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .pod-card .badges{margin-bottom:0;}
+
+  /* ---------- Report section ---------- */
+  .report-grid{display:grid;grid-template-columns:744px 1fr;align-items:stretch;border:1px solid var(--border);}
+  .report-img{overflow:hidden;background:#ded5c4;min-height:418px;}
+  .report-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .report-grid:hover .report-img img{transform:scale(1.04);}
+  .report-body{padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px;}
+  .report-body .badges{margin-bottom:0;}
+  .report-body h2{font-size:40px;line-height:1.2;margin:0;letter-spacing:0;}
+  .report-body .desc{font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;color:var(--caption);margin:0;}
+  .report-play{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+    border:1px solid var(--mint);color:var(--mint-600);background:#fff;
+    font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;padding:9px 18px;cursor:pointer;}
+  .report-play:hover{background:var(--mint);color:#fff;}
+  .report-play svg{flex-shrink:0;}
+
+  /* secondary three-up under hero */
+  .hero-secondary{display:grid;grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--border);margin-top:40px;}
+  .hs-card{padding:40px 26px 0;}
+  .hs-card:first-child{padding-left:0;}
+  .hs-card + .hs-card{border-left:1px solid var(--border);}
+  .hs-card h3{font-size:24px;line-height:1.3;margin:16px 0;letter-spacing:.4px;}
+
+  /* ---------- Opinion grid ---------- */
+  .opinion-grid{display:grid;grid-template-columns:600px 1fr;gap:24px;align-items:start;}
+  .op-feature{cursor:pointer;}
+  .op-feature .img{border-radius:0;overflow:hidden;aspect-ratio:1/1;}
+  .op-feature .img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .op-feature:hover .img img{transform:scale(1.05);}
+  .op-feature .badges{margin-top:20px;}
+  .op-feature h3{font-size:28px;line-height:1.3;margin:14px 0;letter-spacing:-.5px;}
+  .op-feature:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .op-list{display:flex;flex-direction:column;}
+  .op-row{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:24px 0;align-items:center;cursor:pointer;}
+  .op-row:first-child{padding-top:0;}
+  .op-row + .op-row{border-top:1px solid var(--border);}
+  .op-row .thumb{width:200px;height:200px;overflow:hidden;flex-shrink:0;}
+  .op-row .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .op-row:hover .thumb img{transform:scale(1.08);}
+  .op-row .body{min-width:0;}
+  .op-row h3{font-size:24px;line-height:1.3;margin:0 0 14px;letter-spacing:-.4px;}
+  .op-row:hover h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+
+  /* ---------- CIO POV (media features) ---------- */
+  .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .media-card{border:1px solid var(--border);border-radius:0;overflow:hidden;display:flex;flex-direction:column;}
+  .media-card .photo{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--gray-100);}
+  .media-card .photo img{width:100%;height:100%;object-fit:cover;}
+  .play{position:absolute;left:20px;bottom:20px;width:56px;height:56px;border-radius:50%;
+    background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;
+    color:var(--heading);}
+  .media-body{padding:28px;display:flex;flex-direction:column;flex:1;}
+  .media-body h3{font-size:24px;line-height:1.3;margin:16px 0;letter-spacing:-.4px;}
+  .media-body .meta{margin-top:auto;}
+
+  /* ---------- CIO Minutes (list rows) ---------- */
+  .minutes{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .minute-row{display:grid;grid-template-columns:minmax(0,200px) 1fr;gap:24px;padding:24px;align-items:center;
+    border-bottom:1px solid var(--border);}
+  .minute-row .thumb{width:100%;max-width:200px;aspect-ratio:1/1;border-radius:0;overflow:hidden;}
+  .minute-row .thumb img{width:100%;height:100%;object-fit:cover;}
+  .minute-row:nth-child(odd){padding-left:0;border-right:1px solid var(--border);}
+  .minute-row:nth-child(even){padding-right:0;}
+  .minute-row h3{font-size:18px;line-height:1.3;margin-bottom:14px;letter-spacing:-.3px;}
+
+  /* ---------- Events ---------- */
+  .events-section{background:#f4f0e8;border-radius:0;padding:80px 0;margin-top:48px;width:100%;}
+  .events-list{display:flex;flex-direction:column;gap:24px;}
+  .ev-card{display:grid;grid-template-columns:360px 1fr;gap:0;align-items:stretch;
+    background:#fbf8f1;border:1px solid var(--border);overflow:hidden;cursor:pointer;
+    transition:box-shadow .2s ease;}
+  .ev-card:hover{box-shadow:0 10px 28px -12px rgba(0,0,0,.18);}
+  .ev-img{position:relative;width:360px;overflow:hidden;background:#ded5c4;}
+  .ev-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;will-change:transform;}
+  .ev-card:hover .ev-img img{transform:scale(1.05);}
+  .ev-date{position:absolute;top:16px;left:16px;background:#0b0f14;color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:56px;height:56px;line-height:1;}
+  .ev-mon{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;}
+  .ev-day{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;margin-top:2px;}
+  .ev-body{padding:40px;display:flex;flex-direction:column;gap:16px;min-width:0;}
+  .ev-body .badges{margin-bottom:0;}
+  .ev-body h3{font-size:32px;line-height:1.2;margin:0;letter-spacing:-.4px;}
+  .ev-card:hover .ev-body h3{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;}
+  .ev-meta{display:flex;flex-wrap:wrap;gap:8px 24px;}
+  .ev-metaitem{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;
+    font-size:14px;color:var(--caption);}
+  .ev-metaitem svg{width:16px;height:16px;flex-shrink:0;color:var(--caption);}
+  .ev-btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:8px;
+    border:1px solid var(--heading);color:var(--heading);background:transparent;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.5px;
+    text-transform:uppercase;padding:9px 18px;transition:background .2s ease,color .2s ease;}
+  .ev-btn svg{width:14px;height:14px;flex-shrink:0;}
+  .ev-btn:hover{background:var(--heading);color:#fff;}
+
+  /* ---------- Newsletter ---------- */
+  .news-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
+  .news-item{display:grid;grid-template-columns:215px 1fr;gap:24px;align-items:center;padding:30px 0;}
+  .news-item .thumb{width:215px;height:215px;border-radius:0;overflow:hidden;}
+  .news-item .thumb img{width:100%;height:100%;object-fit:cover;}
+  .news-item h3{font-size:24px;line-height:1.3;margin:16px 0;letter-spacing:-.4px;}
+
+  /* ---------- Community Hub ---------- */
+  .hub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .hub-card{display:flex;flex-direction:column;}
+  .hub-card .img{border-radius:0;overflow:hidden;aspect-ratio:1/1;}
+  .hub-card .img img{width:100%;height:100%;object-fit:cover;}
+  .hub-body{padding:24px 16px 0;display:flex;flex-direction:column;flex:1;}
+  .hub-body h3{font-size:22px;line-height:1.3;margin:16px 0;letter-spacing:-.4px;}
+  .hub-body .meta{margin-top:auto;}
+
+  footer{margin-top:80px;border-top:1px solid var(--border);padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .brand{display:flex;align-items:baseline;gap:8px;font-weight:800;font-size:22px;letter-spacing:-1px;}
+  footer .brand .mint{font-family:'Lato',sans-serif;color:var(--mint);}
+  footer .brand .tc{font-family:'Lato',sans-serif;font-size:22px;color:var(--heading);line-height:1.4;letter-spacing:-1px;}
+  footer .copy{font-size:13px;color:var(--caption);}
+  footer .foot-brand{display:inline-flex;align-items:center;}
+  footer .foot-logo-svg{height:32px;width:auto;display:block;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1279px){
+    :root{--gutter:40px;}
+  }
+  @media (max-width:1024px){
+    .news-grid{grid-template-columns:1fr;}
+    .media-grid{grid-template-columns:1fr;}
+    .minutes{grid-template-columns:1fr;}
+    .minute-row:nth-child(odd){border-right:none;}
+    .hub-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:1279px){
+    .top-bar{flex-wrap:wrap;gap:12px 20px;}
+    .primary-nav{order:3;width:100%;gap:24px;border-top:1px solid #222;padding-top:12px;}
+    .top-right{margin-left:auto;gap:14px;}
+    .insights-link{display:none;}
+    .search{width:220px;}
+    .nav-dropdown{box-shadow:0 12px 30px rgba(0,0,0,.18);}
+  }
+  @media (max-width:1200px){
+    :root{--gutter:40px;}
+    .hero{grid-template-columns:1fr;}
+    .hero-divider{display:none;}
+    .hero-feature{width:100%;height:auto;aspect-ratio:1/1;}
+    .hero-card{left:120px;right:0;}
+    .hero-v3{flex-direction:column;height:auto;}
+    .hv3-feature{width:100%;aspect-ratio:16/10;}
+    .hv3-overlay{width:auto;right:0;}
+    .hv3-panel{border-left:none;border-top:1px solid #242a46;}
+    .hero-v5{grid-template-columns:1fr;}
+    .hv5-divider{display:none;}
+    .hv5-feature{width:100%;height:auto;aspect-ratio:16/11;}
+    .report-grid{grid-template-columns:1fr;}
+    .report-img{min-height:0;aspect-ratio:16/9;}
+    .ciovideo-grid{grid-template-columns:1fr;}
+    .ciov-img{width:100%;height:auto;aspect-ratio:1/1;}
+    .ciov-feature{min-width:0;}
+    .podcast-top{grid-template-columns:1fr;height:auto;}
+    .pod-hero{height:auto;aspect-ratio:3/4;max-height:none;}
+    .podcast-row{grid-template-columns:1fr;}
+    .opinion-grid{grid-template-columns:1fr;}
+    .op-feature .img{aspect-ratio:16/10;}
+    .ev-card{grid-template-columns:280px 1fr;}
+    .ev-img{width:280px;}
+    .ev-body{padding:28px;}
+    .ev-body h3{font-size:26px;}
+    .event-hero h2{font-size:36px;}
+  }
+  @media (max-width:860px){
+    :root{--gutter:24px;}
+    .top-bar{flex-wrap:wrap;gap:12px 20px;}
+    .primary-nav{order:3;width:100%;gap:20px;border-top:1px solid #222;padding-top:12px;}
+    .top-right{gap:12px;min-width:0;margin-left:auto;}
+    .insights-link{display:none;}
+    .search{width:auto;flex:1;max-width:260px;}
+    .nav-dropdown{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;
+      border:none;padding:4px 0 4px 14px;min-width:0;display:none;}
+    .nav-item.open .nav-dropdown{display:block;}
+    .nav-item:hover .nav-dropdown{display:none;}
+    .nav-item.open:hover .nav-dropdown{display:block;}
+    .nav-dropdown a{color:#cbd5e1;}
+    .nav-dropdown a .dd-sub{color:#8a93a6;}
+    .nav-dropdown a:hover{background:transparent;color:var(--mint);}
+    .media-grid{grid-template-columns:1fr;}
+    .minutes{grid-template-columns:1fr;}
+    .minute-row:nth-child(odd){border-right:none;padding-left:24px;}
+    .minute-row:nth-child(even){padding-right:24px;}
+    .news-grid{grid-template-columns:1fr;}
+    .hub-grid{grid-template-columns:1fr 1fr;}
+    .hero-secondary{grid-template-columns:1fr;}
+    .hs-card{padding:24px 0;border-left:none!important;border-top:1px solid var(--border);}
+    .hs-card:first-child{border-top:none;}
+    .op-row{grid-template-columns:1fr;gap:12px;}
+    .opinion-cell:nth-child(odd){border-right:none;}
+    .op-row .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .opinion-cell:last-child{border-bottom:none;}
+    .section-head h2{font-size:30px;}
+  }
+  /* ---------- Mobile: full single-column reflow (≤560px) ---------- */
+  @media (max-width:560px){
+    :root{--gutter:16px;}
+    body{overflow-x:hidden;}
+
+    /* Header: hamburger + logo on left, search/login on right; nav in drawer */
+    .top-bar{flex-wrap:wrap;gap:12px;padding:16px var(--gutter);align-items:center;}
+    .nav-toggle{display:flex;order:0;}
+    .brand{width:auto;order:1;}
+    .brand .logo{height:30px;}
+    .brand .logo-img{height:34px;}
+    .brand .tc{font-size:30px;}
+    .primary-nav{display:none;}
+    .secondary-nav{display:none;}
+    .top-right{gap:12px;width:auto;margin-left:auto;align-items:center;order:2;}
+    .search{width:150px;flex:0 1 150px;max-width:none;}
+
+    /* Hero feature: portrait, card overlaps bottom */
+    .hero-feature{width:100%;height:auto;aspect-ratio:3/4;}
+    .hero-card{left:24px;right:0;padding:12px 0 0 14px;}
+    .hero-card h2{font-size:22px;line-height:1.3;letter-spacing:.4px;}
+    .hero-card .badges{gap:8px;}
+
+    /* New v3 hero: stack, smaller overlay + panel text */
+    .hv3-feature{aspect-ratio:4/3;}
+    .hv3-overlay{padding:14px 16px;}
+    .hv3-overlay h2{font-size:20px;}
+    .hv3-panel-head{padding:0 16px;}
+    .hv3-panel-title h3{font-size:20px;}
+    .hv3-item{padding:16px;}
+    .hv3-item h3{font-size:18px;}
+    /* New v5 hero mobile */
+    .hv5-feature{aspect-ratio:3/4;}
+    .hv5-caption{left:16px;right:16px;bottom:16px;}
+    .hv5-caption h2{font-size:24px;}
+    .hv5-item{grid-template-columns:1fr;gap:12px;padding:20px 0;}
+    .hv5-item:first-child{padding-top:20px;}
+    .hv5-item .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .hv5-item h3{font-size:20px;-webkit-line-clamp:3;}
+    .report-body{padding:20px;}
+    .report-body h2{font-size:24px;}
+    .ciovideo-section{padding:40px 0;}
+    .ciov-card{flex-direction:column;}
+    .ciov-card .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .ciov-card .body{padding:16px;}
+    .ciov-feature{gap:16px;}
+    .pod-hero .caption h2{font-size:24px;}
+    .pod-body h3{font-size:24px;}
+
+    /* New v3 hero: stack, smaller overlay + panel text */
+    .hv3-feature{aspect-ratio:4/3;}
+    .hv3-overlay{padding:14px 16px;}
+    .hv3-overlay h2{font-size:20px;}
+    .hv3-panel-head{padding:0 16px;}
+    .hv3-panel-title h3{font-size:20px;}
+    .hv3-item{padding:16px;}
+    .hv3-item h3{font-size:18px;}
+
+    /* Right-side hero list: image on top of text */
+    .hero-item{grid-template-columns:1fr;gap:12px;padding:20px 0;}
+    .hero-item:first-child{padding-top:20px;}
+    .hero-item .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .hero-item h3{font-size:20px;-webkit-line-clamp:3;}
+    .hero-item .meta{margin-top:12px;}
+
+    /* Opinion: feature stacks, right cells single column */
+    .feature-card h3{font-size:22px;}
+    .op-row h3{font-size:20px;}
+    .opinion-cell h3{font-size:20px;}
+
+    /* CIO POV media cards single column */
+    .media-body{padding:20px;}
+    .media-body h3{font-size:20px;}
+
+    /* CIO Minutes: image on top */
+    .minutes{grid-template-columns:1fr;}
+    .minute-row{grid-template-columns:1fr !important;gap:12px;padding:20px 0 !important;border-right:none !important;}
+    .minute-row .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .minute-row h3{font-size:18px;}
+
+    /* Events: hero stacks, side list image on top */
+    .events-section{padding:48px 0;}
+    .ev-card{grid-template-columns:1fr;}
+    .ev-img{width:100%;aspect-ratio:16/10;}
+    .ev-body{padding:20px;gap:12px;}
+    .ev-body h3{font-size:22px;}
+
+    /* Newsletter: image on top */
+    .news-grid{grid-template-columns:1fr;}
+    .news-item{grid-template-columns:1fr;gap:12px;padding:24px 0;}
+    .news-item .thumb{width:100%;height:auto;aspect-ratio:16/10;}
+    .news-item h3{font-size:20px;}
+
+    /* Community Hub: single column */
+    .hub-grid{grid-template-columns:1fr;}
+    .hub-card .img{aspect-ratio:16/10;}
+    .hub-body{padding:16px 0 0;}
+    .hub-body h3{font-size:20px;}
+
+    /* 3-up secondary row stacks */
+    .hero-secondary{grid-template-columns:1fr;}
+    .hs-card{padding:24px 0;border-left:none!important;border-top:1px solid var(--border);}
+    .hs-card:first-child{border-top:none;}
+
+    /* Section heads + footer */
+    .section{padding-top:36px;}
+    .section-head{flex-direction:column;align-items:flex-start;gap:16px;}
+    .section-head h2{font-size:24px;}
+    footer .wrap{flex-direction:column;align-items:flex-start;}
+  }
+
+  @media (max-width:380px){
+    .hero-card h2{font-size:20px;}
+    .brand .tc{font-size:26px;}
+    .brand .logo{height:26px;}
+    .primary-nav .nav-link{font-size:13px;}
+  }
+  *:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:0;}
+
+  /* ---------- Card hover (v3): center-out vertical fill + title underline + image zoom ---------- */
+  .hero-item,.hs-card,.feature-card,.opinion-cell,.media-card,
+  .minute-row,.event-item,.news-item,.hub-card{
+    cursor:pointer;border-radius:0;position:relative;
+    transition:border-color .2s ease;
+  }
+  /* progressive fill: grows from the top edge downward */
+  .hero-item::before,.hs-card::before,.feature-card::before,.opinion-cell::before,
+  .media-card::before,.minute-row::before,.event-item::before,.news-item::before,.hub-card::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:0;
+    background:#f6f7f9;z-index:0;pointer-events:none;
+    transition:height .35s ease;
+  }
+  .hero-item:hover::before,.hs-card:hover::before,.feature-card:hover::before,.opinion-cell:hover::before,
+  .media-card:hover::before,.minute-row:hover::before,.event-item:hover::before,
+  .news-item:hover::before,.hub-card:hover::before{
+    top:0;height:100%;
+  }
+  /* event cards keep the cream theme: deeper-cream fill + border shift */
+  .events-section .event-item::before{background:#efe8da;}
+  .events-section .event-item:hover{border-color:#d9cfbb;}
+  /* keep all card content above the fill */
+  .hero-item > *,.hs-card > *,.feature-card > *,.opinion-cell > *,
+  .media-card > *,.minute-row > *,.event-item > *,.news-item > *,.hub-card > *{
+    position:relative;z-index:1;
+  }
+  /* title underline on hover (heading only) */
+  .hero-item:hover h3,.hs-card:hover h3,.feature-card:hover h3,.opinion-cell:hover h3,
+  .media-card:hover h3,.minute-row:hover h3,.event-item:hover h3,
+  .news-item:hover h3,.hub-card:hover h3,
+  .feature-card:hover h2,.opinion-cell:hover h2{
+    text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;
+  }
+
+  /* image zoom on card hover (stays within the fixed, sharp-cornered frame) */
+  .hero-item .thumb img,.feature-card .img img,.opinion-cell .img img,
+  .media-card .photo img,.minute-row .thumb img,.event-item .thumb img,
+  .news-item .thumb img,.hub-card .img img{
+    transition:transform .35s ease;will-change:transform;
+  }
+  .hero-item:hover .thumb img,.feature-card:hover .img img,.opinion-cell:hover .img img,
+  .media-card:hover .photo img,.minute-row:hover .thumb img,.event-item:hover .thumb img,
+  .news-item:hover .thumb img,.hub-card:hover .img img{
+    transform:scale(1.08);
+  }
+
+  @media (hover:none){
+    .hero-item:hover::before,.hs-card:hover::before,.feature-card:hover::before,.opinion-cell:hover::before,
+    .media-card:hover::before,.minute-row:hover::before,.event-item:hover::before,
+    .news-item:hover::before,.hub-card:hover::before{top:50%;height:0;}
+    .hero-item:hover .thumb img,.feature-card:hover .img img,.opinion-cell:hover .img img,
+    .media-card:hover .photo img,.minute-row:hover .thumb img,.event-item:hover .thumb img,
+    .news-item:hover .thumb img,.hub-card:hover .img img{transform:none;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-item::before,.hs-card::before,.feature-card::before,.opinion-cell::before,
+    .media-card::before,.minute-row::before,.event-item::before,.news-item::before,.hub-card::before{transition:none;}
+    .hero-item .thumb img,.feature-card .img img,.opinion-cell .img img,
+    .media-card .photo img,.minute-row .thumb img,.event-item .thumb img,
+    .news-item .thumb img,.hub-card .img img{transition:none;}
+    .hero-item:hover .thumb img,.feature-card:hover .img img,.opinion-cell:hover .img img,
+    .media-card:hover .photo img,.minute-row:hover .thumb img,.event-item:hover .thumb img,
+    .news-item:hover .thumb img,.hub-card:hover .img img{transform:none;}
+  }
+
+  /* ---------- Reader Poll section ---------- */
+  .poll-grid{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;}
+  .poll-card{border:1px solid var(--border);padding:40px;}
+  .poll-q{font-size:32px;line-height:1.2;letter-spacing:-.4px;margin:16px 0 10px;}
+  .poll-asked{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--caption);margin-bottom:28px;}
+  .poll-asked b{color:var(--heading);font-weight:600;}
+  .poll .options{display:flex;flex-direction:column;gap:16px;}
+  .poll .option{position:relative;width:100%;text-align:left;background:#fff;border:1px solid var(--border);
+    border-radius:0;padding:20px 22px;cursor:pointer;overflow:hidden;
+    transition:border-color .2s ease,background .2s ease;}
+  .poll .option:hover{border-color:#c5c9d2;background:#fbfbfc;}
+  .poll .option:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+  .poll .option .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(249,157,28,.14);
+    z-index:0;transition:width .8s cubic-bezier(.22,.61,.36,1);}
+  .poll .option .row{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .poll .option .opt-title{font-family:'Young Serif',Georgia,serif;font-size:22px;color:var(--heading);letter-spacing:-.2px;}
+  .poll .option .opt-pct{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--heading);
+    opacity:0;transform:translateX(6px);transition:opacity .4s ease .15s,transform .4s ease .15s;}
+  .poll .option .opt-votes{position:relative;z-index:1;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--caption);margin-top:10px;height:0;opacity:0;overflow:hidden;
+    transition:opacity .4s ease .15s,height .3s ease;}
+  .poll .option .baseline{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--mint);z-index:1;
+    transition:width .8s cubic-bezier(.22,.61,.36,1);}
+  .poll.voted .option{cursor:default;}
+  .poll.voted .option .opt-pct{opacity:1;transform:none;}
+  .poll.voted .option .opt-votes{opacity:1;height:16px;}
+  .poll .option.selected{border-color:var(--mint);border-width:2px;padding:19px 21px;}
+  .poll.voted .option:not(.selected){opacity:.9;}
+  .poll-side{border:1px solid var(--border);padding:28px;}
+  .side-votes-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);}
+  .side-votes-num{font-family:'Young Serif',Georgia,serif;font-size:44px;color:var(--heading);line-height:1;margin-top:8px;}
+  .side-hint{font-size:13px;color:var(--caption);margin-top:8px;line-height:1.5;}
+  .side-divider{height:1px;background:var(--border);margin:22px 0;}
+  .side-share-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.44px;
+    text-transform:uppercase;color:var(--caption);margin-bottom:14px;}
+  .share-links{display:flex;flex-direction:column;gap:12px;}
+  .share-links a{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;
+    font-size:14px;color:var(--blue);}
+  .share-links a:hover{color:var(--mint-600);}
+  .share-links svg{width:16px;height:16px;flex-shrink:0;}
+  .voted-flag{display:none;align-items:center;gap:8px;margin-top:20px;padding:12px 14px;
+    background:rgba(249,157,28,.1);border:1px solid rgba(249,157,28,.4);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--mint-600);}
+  .poll.voted .voted-flag{display:flex;}
+  .voted-flag svg{width:16px;height:16px;flex-shrink:0;}
+  .voted-flag b{color:var(--heading);font-weight:600;}
+  @media (max-width:900px){
+    .poll-grid{grid-template-columns:1fr;}
+    .poll-card{padding:28px;}
+    .poll-q{font-size:26px;}
+  }
+  @media (max-width:560px){
+    .poll-card{padding:20px;}
+    .poll-q{font-size:22px;}
+    .poll .option .opt-title{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="top-bar">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="brand" href="#" aria-label="mint CIO Circle home">
+      <img class="logo-img" src="data:image/png;base64,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" alt="mint CIO Circle">
+    </a>
+
+    <div class="top-right">
+      <form class="search" role="search" onsubmit="return false">
+        <input type="search" placeholder="Search for..." aria-label="Search">
+        <button type="submit" aria-label="Search">
+          <svg width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  <nav class="secondary-nav" aria-label="Sections">
+    <div class="secondary-nav-inner">
+      <div class="snav-item"><a class="snav-link" href="#">Top News</a></div>
+      <div class="snav-item"><a class="snav-link" href="#">Opinion</a></div>
+      <div class="snav-item"><a class="snav-link" href="#">CXO Spotlight</a></div>
+      <div class="snav-item"><a class="snav-link" href="#">Reports</a></div>
+      <div class="snav-item"><a class="snav-link" href="#">Events</a></div>
+      <div class="snav-item"><a class="snav-link" href="#">Newsletter</a></div>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== Mobile slide-in drawer ===== -->
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">Menu</span>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <nav class="drawer-nav" aria-label="Mobile primary">
+    <a href="#">Top News</a>
+    <a href="#">Opinion</a>
+    <div class="drawer-group" id="drawerCxo">
+      <button class="drawer-group-btn" type="button" aria-expanded="false">
+        CXO Spotlight
+        <svg class="caret" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="drawer-sub">
+        <a href="#">Text interviews<span class="dd-sub">In-depth written conversations</span></a>
+        <a href="#">Podcasts<span class="dd-sub">Audio conversations with leaders</span></a>
+        <a href="#">Vodcasts<span class="dd-sub">Video interviews &amp; series</span></a>
+      </div>
+    </div>
+    <a href="#">Reports</a>
+    <a href="#">Events</a>
+    <a href="#">Newsletter</a>
+  </nav>
+</aside>
+
+<script>
+  (function(){
+    /* desktop CXO Spotlight dropdown */
+    var item = document.getElementById('cxoSpotlight');
+    if(item){
+      var btn = item.querySelector('.nav-link');
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true':'false');
+      });
+      document.addEventListener('click', function(e){
+        if(!item.contains(e.target)){ item.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+      });
+    }
+    /* mobile slide-in drawer */
+    var toggle = document.getElementById('navToggle');
+    var drawer = document.getElementById('mobileDrawer');
+    var backdrop = document.getElementById('drawerBackdrop');
+    var closeBtn = document.getElementById('drawerClose');
+    function openDrawer(){
+      drawer.classList.add('open'); backdrop.hidden=false;
+      requestAnimationFrame(function(){ backdrop.classList.add('show'); });
+      drawer.setAttribute('aria-hidden','false'); if(toggle) toggle.setAttribute('aria-expanded','true');
+      document.body.style.overflow='hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open'); backdrop.classList.remove('show');
+      drawer.setAttribute('aria-hidden','true'); if(toggle) toggle.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+      setTimeout(function(){ backdrop.hidden=true; }, 250);
+    }
+    if(toggle) toggle.addEventListener('click', openDrawer);
+    if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if(backdrop) backdrop.addEventListener('click', closeDrawer);
+    /* drawer CXO accordion */
+    var dg = document.getElementById('drawerCxo');
+    if(dg){
+      var dgb = dg.querySelector('.drawer-group-btn');
+      dgb.addEventListener('click', function(){
+        var open = dg.classList.toggle('open');
+        dgb.setAttribute('aria-expanded', open ? 'true':'false');
+      });
+    }
+    /* secondary nav dropdowns (click toggle + outside close) */
+    var snavItems = document.querySelectorAll('.snav-item.has-dd');
+    snavItems.forEach(function(si){
+      var sb = si.querySelector('.snav-link');
+      sb.addEventListener('click', function(e){
+        e.stopPropagation();
+        var wasOpen = si.classList.contains('open');
+        snavItems.forEach(function(o){ o.classList.remove('open'); var b=o.querySelector('.snav-link'); if(b) b.setAttribute('aria-expanded','false'); });
+        if(!wasOpen){ si.classList.add('open'); sb.setAttribute('aria-expanded','true'); }
+      });
+    });
+    document.addEventListener('click', function(e){
+      snavItems.forEach(function(si){ if(!si.contains(e.target)){ si.classList.remove('open'); var b=si.querySelector('.snav-link'); if(b) b.setAttribute('aria-expanded','false'); } });
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key==='Escape'){
+        if(item){ item.classList.remove('open'); }
+        if(drawer && drawer.classList.contains('open')) closeDrawer();
+        snavItems.forEach(function(si){ si.classList.remove('open'); });
+      }
+    });
+  })();
+</script>
+
+<main>
+
+<!-- ===== Hero + side list ===== -->
+<section class="wrap" style="padding-top:40px;">
+  <div class="hero-v5">
+    <article class="hv5-feature">
+      <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1200&q=80&auto=format&fit=crop" alt="">
+      <div class="hv5-overlay"></div>
+      <div class="hv5-caption">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h2>Trump is running out of European friends — even on the nationalist right</h2>
+        <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      </div>
+    </article>
+
+    <div class="hv5-divider" aria-hidden="true"></div>
+
+    <div class="hv5-list">
+      <article class="hv5-item">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>Meta names Indian entrepreneur Kunal Shah as WhatsApp CEO</h3>
+          <div class="meta"><span class="author">Rohan Malhotra</span><span class="sep"></span><span class="date">21 Jun, 2026</span></div>
+        </div>
+      </article>
+      <article class="hv5-item">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>Your AI strategy may be training employees to stop thinking</h3>
+          <div class="meta"><span class="author">Daniel Pereira</span><span class="sep"></span><span class="date">20 Jun, 2026</span></div>
+        </div>
+      </article>
+      <article class="hv5-item">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>AI takes over 37% of entry-level work in India as firms rethink hiring</h3>
+          <div class="meta"><span class="author">Vikram Nair</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+        </div>
+      </article>
+      <article class="hv5-item">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>AI takes over 37% of entry-level work in India as firms rethink hiring</h3>
+          <div class="meta"><span class="author">Priya Deshmukh</span><span class="sep"></span><span class="date">18 Jun, 2026</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- secondary three-up -->
+  <div class="hero-secondary">
+    <article class="hs-card">
+      <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+      <h3>Cloud margins crack as the AI buildout bites</h3>
+      <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+    </article>
+    <article class="hs-card">
+      <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+      <h3>Identity is the new perimeter — and the new target</h3>
+      <div class="meta"><span class="author">Neha Kapoor</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+    </article>
+    <article class="hs-card">
+      <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+      <h3>India's capability centers go from cost to core</h3>
+      <div class="meta"><span class="author">Aditya Menon</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== Opinion ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>Opinion</h2><div class="sub">Expert analysis and thought leadership.</div></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <div class="opinion-grid">
+    <article class="op-feature">
+      <div class="img"><img src="https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=1000&q=80&auto=format&fit=crop" alt=""></div>
+      <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+      <h3>Architecture-as-code is the next frontier for enterprise governance</h3>
+      <div class="meta"><span class="author">Omar Farouk</span><span class="sep"></span><span class="date">24 Jun, 2026</span></div>
+    </article>
+    <div class="op-list">
+      <article class="op-row">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <h3>Digital infrastructure firm Constl appoints Nidhi Pandey as CIO</h3>
+          <div class="meta"><span class="author">Ananya Iyer</span><span class="sep"></span><span class="date">15 Jun, 2026</span></div>
+        </div>
+      </article>
+      <article class="op-row">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <h3>TelioLabs names former Oracle executive Piyush Sarwal as technology and AI chief</h3>
+          <div class="meta"><span class="author">Varun Saxena</span><span class="sep"></span><span class="date">13 Jun, 2026</span></div>
+        </div>
+      </article>
+      <article class="op-row">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="body">
+          <h3>Anuraag Kochhar joins ShepHertz as chief technology officer</h3>
+          <div class="meta"><span class="author">Arjun Bhatt</span><span class="sep"></span><span class="date">11 Jun, 2026</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Voice of Leaders ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>Voice of Leaders</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <div class="podcast-top">
+    <article class="pod-hero">
+      <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=900&q=80&auto=format&fit=crop" alt="">
+      <div class="overlay"></div>
+      <div class="caption">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h2>TCS bags multi-year IT transformation deal from packaging major Elopak</h2>
+        <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      </div>
+    </article>
+    <article class="pod-feature">
+      <div class="pod-img"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80&auto=format&fit=crop" alt=""><span class="play-badge pod-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></div>
+      <div class="pod-body">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h3>LTM backs industry effort to strengthen open source software security</h3>
+        <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      </div>
+    </article>
+  </div>
+  <div class="podcast-row">
+    <article class="pod-card">
+      <div class="body">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h3>Why smaller is smarter: How SLMs make GenAI operational</h3>
+        <div class="meta"><span class="author">Pooja Mehta</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      </div>
+    </article>
+    <article class="pod-card">
+      <div class="body">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h3>Anthropic's financial agents expose forward-deployed engineers</h3>
+        <div class="meta"><span class="author">Rahul Khanna</span><span class="sep"></span><span class="date">17 Jun, 2026</span></div>
+      </div>
+    </article>
+    <article class="pod-card">
+      <div class="body">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h3>How UKG puts AI to work for frontline employees</h3>
+        <div class="meta"><span class="author">Divya Pillai</span><span class="sep"></span><span class="date">15 Jun, 2026</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== Reader Poll ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>Reader Poll</h2><div class="sub">Where the CIO community stands this week.</div></div>
+    </div>
+    <a class="view-all" href="#">All polls</a>
+  </div>
+  <div class="poll-grid">
+    <div class="poll-card">
+      <div class="poll" id="poll" data-total="117">
+        <span class="badge">Enterprise AI</span>
+        <h3 class="poll-q">Where will AI deliver the most enterprise value in 2026?</h3>
+        <div class="poll-asked">Asked by <b>mint CIO Circle</b> · about 3 hours ago</div>
+        <div class="options" role="radiogroup" aria-label="Where will AI deliver the most enterprise value in 2026?">
+          <button class="option" role="radio" aria-checked="false" data-votes="9">
+            <span class="fill"></span><span class="baseline"></span>
+            <span class="row"><span class="opt-title">Customer service &amp; support</span><span class="opt-pct">0%</span></span>
+            <div class="opt-votes">0 votes</div>
+          </button>
+          <button class="option" role="radio" aria-checked="false" data-votes="61">
+            <span class="fill"></span><span class="baseline"></span>
+            <span class="row"><span class="opt-title">Software engineering &amp; code</span><span class="opt-pct">0%</span></span>
+            <div class="opt-votes">0 votes</div>
+          </button>
+          <button class="option" role="radio" aria-checked="false" data-votes="5">
+            <span class="fill"></span><span class="baseline"></span>
+            <span class="row"><span class="opt-title">Security &amp; threat detection</span><span class="opt-pct">0%</span></span>
+            <div class="opt-votes">0 votes</div>
+          </button>
+          <button class="option" role="radio" aria-checked="false" data-votes="42">
+            <span class="fill"></span><span class="baseline"></span>
+            <span class="row"><span class="opt-title">Data analysis &amp; decisioning</span><span class="opt-pct">0%</span></span>
+            <div class="opt-votes">0 votes</div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <aside class="poll-side">
+      <div class="side-votes-label">Total votes</div>
+      <div class="side-votes-num" id="totalVotes">117</div>
+      <div class="side-hint" id="sideHint">Cast your vote to see where the community stands.</div>
+      <div class="voted-flag" id="votedFlag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>You voted <b id="votedName">—</b></span>
+      </div>
+      <div class="side-divider"></div>
+      <div class="side-share-label">Share</div>
+      <div class="share-links">
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 1.2h3.7l-8 9.1 9.4 12.5h-7.4l-5.8-7.6-6.6 7.6H.4l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.5h2L6.5 3.3H4.4l13.2 17.4z"/></svg>Twitter / X</a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 10-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0024 12z"/></svg>Facebook</a>
+        <a href="#" id="copyLink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.5-1.5"/></svg><span id="copyLabel">Copy link</span></a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ===== CIO Minutes ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>CIO Minutes</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <div class="minutes">
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>How IKEA turned a €13 million chatbot into a €1.3 billion business</h3>
+        <div class="meta"><span class="author">Lucas Moretti</span><span class="sep"></span><span class="date">21 Jun, 2026</span></div></div>
+    </article>
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>Digital infrastructure firm Constl appoints Nidhi Pandey as CIO</h3>
+        <div class="meta"><span class="author">Ananya Iyer</span><span class="sep"></span><span class="date">15 Jun, 2026</span></div></div>
+    </article>
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>Meta names Indian entrepreneur Kunal Shah as WhatsApp CEO</h3>
+        <div class="meta"><span class="author">Siddharth Rao</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div></div>
+    </article>
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>TelioLabs names former Oracle executive Piyush Sarwal as technology and AI chief</h3>
+        <div class="meta"><span class="author">Varun Saxena</span><span class="sep"></span><span class="date">13 Jun, 2026</span></div></div>
+    </article>
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>SKF India gets a new head of IT and digitalisation for ISEAM region</h3>
+        <div class="meta"><span class="author">Ishaan Verma</span><span class="sep"></span><span class="date">17 Jun, 2026</span></div></div>
+    </article>
+    <article class="minute-row">
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=80&auto=format&fit=crop" alt=""></div>
+      <div><h3>Anuraag Kochhar joins ShepHertz as chief technology officer</h3>
+        <div class="meta"><span class="author">Arjun Bhatt</span><span class="sep"></span><span class="date">11 Jun, 2026</span></div></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== AI Podcast ===== -->
+<section class="ciovideo-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="left">
+        <span class="bar"></span>
+        <div><h2>AI Podcast</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+    <div class="ciovideo-grid">
+      <article class="ciov-feature">
+        <div class="ciov-img"><img src="https://images.unsplash.com/photo-1617704548623-340376564e68?w=900&q=80&auto=format&fit=crop" alt=""></div>
+        <div class="ciov-body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>NTSB launches probe into fatal Texas Tesla crash</h3>
+          <div class="meta"><span class="author">Omar Farouk</span><span class="sep"></span><span class="date">24 Jun, 2026</span></div>
+        </div>
+      </article>
+      <div class="ciov-list">
+        <article class="ciov-card">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80&auto=format&fit=crop" alt=""></div>
+          <div class="body">
+            <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+            <h3>Antonio Marin on Navigating Change and Growth</h3>
+            <div class="meta"><span class="author">Arjun Bhatt</span><span class="sep"></span><span class="date">11 Jun, 2026</span></div>
+          </div>
+        </article>
+        <article class="ciov-card">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80&auto=format&fit=crop" alt=""></div>
+          <div class="body">
+            <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+            <h3>Antonio Marin on Navigating Change and Growth</h3>
+            <div class="meta"><span class="author">Arjun Bhatt</span><span class="sep"></span><span class="date">11 Jun, 2026</span></div>
+          </div>
+        </article>
+        <article class="ciov-card">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80&auto=format&fit=crop" alt=""></div>
+          <div class="body">
+            <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+            <h3>Antonio Marin on Navigating Change and Growth</h3>
+            <div class="meta"><span class="author">Arjun Bhatt</span><span class="sep"></span><span class="date">11 Jun, 2026</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Podcast ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>Podcast</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <div class="media-grid">
+    <article class="media-card">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&auto=format&fit=crop" alt="">
+        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      </div>
+      <div class="media-body">
+        <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+        <h3>Unmanaged AI use could trigger India's next big data breach, warns IDfy COO</h3>
+        <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      </div>
+    </article>
+    <article class="media-card">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80&auto=format&fit=crop" alt="">
+        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      </div>
+      <div class="media-body">
+        <div class="badges"><span class="badge">Interview</span><span class="badge">AI</span></div>
+        <h3>UK-India tech corridor emerging as a 'single engine' for AI innovation: Hexaware's Iyer</h3>
+        <div class="meta"><span class="author">James Whitaker</span><span class="sep"></span><span class="date">17 Jun, 2026</span></div>
+      </div>
+    </article>
+    <article class="media-card">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&q=80&auto=format&fit=crop" alt="">
+        <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      </div>
+      <div class="media-body">
+        <div class="badges"><span class="badge">Leadership</span><span class="badge">IT Operations</span></div>
+        <h3>AI agents will become the new enterprise interface, says Infosys' Balakrishna DR</h3>
+        <div class="meta"><span class="author">Michael Brennan</span><span class="sep"></span><span class="date">15 Jun, 2026</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== Upcoming events ===== -->
+<section class="events-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="left">
+        <span class="bar"></span>
+        <div><h2>Upcoming events</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+      </div>
+      <a class="view-all" href="#">View all</a>
+    </div>
+    <div class="events-list">
+      <article class="ev-card">
+        <div class="ev-img">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80&auto=format&fit=crop" alt="">
+          <div class="ev-date"><span class="ev-mon">JUN</span><span class="ev-day">12</span></div>
+        </div>
+        <div class="ev-body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>Design Systems Conference</h3>
+          <div class="ev-meta">
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>June 12–14, 2026</span>
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>San Francisco, CA</span>
+          </div>
+          <a class="ev-btn" href="#">LEARN MORE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>
+      </article>
+      <article class="ev-card">
+        <div class="ev-img">
+          <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=700&q=80&auto=format&fit=crop" alt="">
+          <div class="ev-date"><span class="ev-mon">JUL</span><span class="ev-day">20</span></div>
+        </div>
+        <div class="ev-body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>Global AI Ethics Summit</h3>
+          <div class="ev-meta">
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>July 20–22, 2026</span>
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>San Francisco, CA</span>
+          </div>
+          <a class="ev-btn" href="#">LEARN MORE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>
+      </article>
+      <article class="ev-card">
+        <div class="ev-img">
+          <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=700&q=80&auto=format&fit=crop" alt="">
+          <div class="ev-date"><span class="ev-mon">SEP</span><span class="ev-day">05</span></div>
+        </div>
+        <div class="ev-body">
+          <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+          <h3>CIO 100 Awards &amp; Conference</h3>
+          <div class="ev-meta">
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>September 5–7, 2026</span>
+            <span class="ev-metaitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>San Francisco, CA</span>
+          </div>
+          <a class="ev-btn" href="#">LEARN MORE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Digest ===== -->
+<section class="wrap section">
+  <div class="section-head">
+    <div class="left">
+      <span class="bar"></span>
+      <div><h2>Digest</h2><div class="sub">Executive interviews and leadership stories.</div></div>
+    </div>
+    <a class="view-all" href="#">View all</a>
+  </div>
+  <article class="report-grid">
+    <div class="report-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1000&q=80&auto=format&fit=crop" alt=""></div>
+    <div class="report-body">
+      <div class="badges"><span class="badge">Opinion</span><span class="badge">Top News</span></div>
+      <h2>State of the CIO Survey 2026</h2>
+      <p class="desc">The definitive report on the state of the CIO, now in its 25th year, capturing the insights and trends shaping tech leadership</p>
+      <div class="meta"><span class="author">Meera Krishnan</span><span class="sep"></span><span class="date">19 Jun, 2026</span></div>
+      <button class="report-play" type="button">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Play Episode
+      </button>
+    </div>
+  </article>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <a class="brand foot-brand" href="#" aria-label="mint CIO Circle home"><svg class="foot-logo-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 2026.79 332.85" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="1 11" clip-path="url(#clip0_0_4)">
+<path id="Vector" d="M804.73 0H0V332.85H804.73V0Z" fill="#F99D1C"/>
+<g id="Vector_2">
+</g>
+<g id="Group">
+<path id="Vector_3" d="M392.66 36.15C411.76 36.15 427.28 51.65 427.28 70.8C427.28 89.95 411.76 105.17 392.66 105.17C373.56 105.17 358.28 89.63 358.28 70.8C358.28 51.97 373.79 36.15 392.66 36.15Z" fill="white"/>
+<path id="Vector_4" d="M149.38 274.28H64.47V246.84H70.77C74.88 246.84 76.32 244.48 76.32 240.69V155.7C76.32 151.87 74.88 149.55 70.77 149.55H64.47V121.27H141.06V145.08C151.97 129.73 166.22 118.04 189.03 118.04C219.16 118.04 229.29 130.13 232.78 148C241.27 132.6 258.4 118.04 282.69 118.04C320.96 118.04 326.16 136.44 326.16 163.67V240.68C326.16 244.47 327.88 246.83 332.59 246.83H337.45V274.27H253.99V246.83H256.27C260.1 246.83 261.81 244.47 261.81 240.68V170.69C261.81 158.1 257.49 154.04 248.67 154.04C237.01 154.04 233.22 163.68 233.22 178.58V240.39C233.22 244.48 234.97 246.84 238.81 246.84H242.24V274.28H161.09V246.84H163.41C167.17 246.84 168.91 244.48 168.91 240.69V170.7C168.91 158.11 164.58 154.05 155.76 154.05C144.11 154.05 140.33 163.69 140.33 178.59V240.4C140.33 244.49 141.81 246.85 145.9 246.85H149.36V274.29L149.38 274.28Z" fill="white"/>
+<path id="Vector_5" d="M361.03 155.7C361.03 151.87 359.6 149.55 355.48 149.55H349.18V121.27H425.06V240.39C425.06 244.48 426.53 246.84 430.61 246.84H436.38V274.28H349.18V246.84H355.48C359.61 246.84 361.03 244.48 361.03 240.69V155.7Z" fill="white"/>
+<path id="Vector_6" d="M534.45 274.28H449.52V246.84H455.82C459.93 246.84 461.4 244.48 461.4 240.69V155.7C461.4 151.87 459.93 149.55 455.82 149.55H449.52V121.27H525.42V145.39C533.96 132.38 551.29 118.05 576.44 118.05C611.83 118.05 619.48 136.45 619.48 163.68V240.69C619.48 244.48 620.91 246.84 625.62 246.84H630.77V274.28H546.15V246.84H549.62C553.39 246.84 555.17 244.48 555.17 240.69V170.7C555.17 158.11 550.52 154.05 542.06 154.05C532.95 154.05 525.42 160.74 525.42 175.64V240.4C525.42 244.49 527.59 246.85 531.68 246.85H534.46V274.29L534.45 274.28Z" fill="white"/>
+<path id="Vector_7" d="M629.34 121.27L651.9 120.4L654.6 85.58H711.8V121.27H738.88V149.97H711.8V219.28C711.8 237.37 715.31 243.26 735.18 243.26H740.26V274.28C727.12 275.72 715.52 276.29 702.33 276.29C666.07 276.29 647.78 265.04 647.78 234.79V149.97H629.34V121.27Z" fill="white"/>
+</g>
+<g id="Group_2">
+<path id="Vector_8" d="M918.38 259.19C898.2 259.19 882.1 252.56 870.06 239.29C858.02 226.02 852.01 208.07 852.01 185.42C852.01 162.77 858.03 144.82 870.06 131.55C882.09 118.28 898.2 111.65 918.38 111.65C933.89 111.65 947.09 115.83 957.99 124.2C968.89 132.57 975.02 143.6 976.38 157.29H956.92C956.14 148.27 952.23 141.1 945.19 135.78C938.15 130.46 929.28 127.8 918.57 127.8C904.1 127.8 892.65 132.78 884.22 142.74C875.79 152.7 871.57 166.92 871.57 185.41C871.57 203.9 875.75 218.05 884.12 228.04C892.49 238.03 903.84 243.03 918.18 243.03C929.34 243.03 938.36 240.31 945.23 234.86C952.11 229.41 956 221.62 956.91 211.5H976.37C975.01 226.68 969.04 238.43 958.46 246.73C947.88 255.04 934.52 259.19 918.36 259.19H918.38Z" fill="black"/>
+<path id="Vector_9" d="M1023.87 256.76H1004.89V114.09H1023.87V256.76Z" fill="black"/>
+<path id="Vector_10" d="M1119.73 111.66C1139.71 111.66 1156.06 118.41 1168.78 131.9C1181.5 145.4 1187.85 163.24 1187.85 185.43C1187.85 207.62 1181.49 225.46 1168.78 238.96C1156.06 252.46 1139.71 259.2 1119.73 259.2C1099.75 259.2 1083.27 252.44 1070.49 238.91C1057.71 225.38 1051.32 207.56 1051.32 185.43C1051.32 163.3 1057.71 145.4 1070.49 131.9C1083.27 118.41 1099.69 111.66 1119.73 111.66ZM1119.54 243.04C1133.81 243.04 1145.51 237.98 1154.62 227.86C1163.73 217.74 1168.29 203.6 1168.29 185.43C1168.29 167.26 1163.75 153.12 1154.67 143C1145.59 132.88 1134 127.82 1119.93 127.82C1105.86 127.82 1093.83 132.88 1084.65 143C1075.47 153.12 1070.88 167.27 1070.88 185.43C1070.88 203.59 1075.45 217.66 1084.6 227.81C1093.75 237.96 1105.39 243.04 1119.54 243.04Z" fill="black"/>
+<path id="Vector_11" d="M1325.66 259.19C1305.48 259.19 1289.38 252.56 1277.34 239.29C1265.3 226.02 1259.29 208.07 1259.29 185.42C1259.29 162.77 1265.31 144.82 1277.34 131.55C1289.37 118.28 1305.48 111.65 1325.66 111.65C1341.17 111.65 1354.37 115.83 1365.27 124.2C1376.17 132.57 1382.3 143.6 1383.66 157.29H1364.2C1363.42 148.27 1359.51 141.1 1352.47 135.78C1345.43 130.46 1336.56 127.8 1325.85 127.8C1311.38 127.8 1299.93 132.78 1291.5 142.74C1283.07 152.7 1278.85 166.92 1278.85 185.41C1278.85 203.9 1283.03 218.05 1291.4 228.04C1299.77 238.03 1311.12 243.03 1325.46 243.03C1336.62 243.03 1345.64 240.31 1352.51 234.86C1359.39 229.41 1363.28 221.62 1364.19 211.5H1383.65C1382.29 226.68 1376.32 238.43 1365.74 246.73C1355.16 255.04 1341.8 259.19 1325.64 259.19H1325.66Z" fill="black"/>
+<path id="Vector_12" d="M1431.15 256.76H1412.17V114.09H1431.15V256.76Z" fill="black"/>
+<path id="Vector_13" d="M1584.14 256.76H1563.7L1550.27 218.71C1547.87 211.96 1543.88 206.45 1538.3 202.17C1532.72 197.89 1526.3 195.75 1519.03 195.75H1484.09V256.77H1465.21V114.09H1528.37C1539.4 114.09 1548.42 115.16 1555.42 117.3C1562.42 119.44 1568.14 123.95 1572.55 130.83C1576.96 137.71 1579.17 145.46 1579.17 154.09C1579.17 163.95 1576.31 172.19 1570.61 178.81C1564.9 185.43 1557.08 189.74 1547.16 191.75V192.14C1557.09 195.32 1564.64 203.92 1569.84 217.93L1584.15 256.76H1584.14ZM1484.1 178.81H1526.24C1537.98 178.81 1546.5 176.96 1551.79 173.26C1557.08 169.56 1559.72 163.17 1559.72 154.09C1559.72 137.87 1549.53 129.76 1529.16 129.76H1484.1V178.81Z" fill="black"/>
+<path id="Vector_14" d="M1668.91 259.19C1648.73 259.19 1632.63 252.56 1620.59 239.29C1608.55 226.02 1602.54 208.07 1602.54 185.42C1602.54 162.77 1608.56 144.82 1620.59 131.55C1632.62 118.28 1648.73 111.65 1668.91 111.65C1684.42 111.65 1697.62 115.83 1708.52 124.2C1719.42 132.57 1725.55 143.6 1726.91 157.29H1707.45C1706.67 148.27 1702.76 141.1 1695.72 135.78C1688.68 130.46 1679.81 127.8 1669.1 127.8C1654.63 127.8 1643.18 132.78 1634.75 142.74C1626.32 152.7 1622.1 166.92 1622.1 185.41C1622.1 203.9 1626.28 218.05 1634.65 228.04C1643.02 238.03 1654.37 243.03 1668.71 243.03C1679.87 243.03 1688.89 240.31 1695.76 234.86C1702.64 229.41 1706.53 221.62 1707.44 211.5H1726.9C1725.54 226.68 1719.57 238.43 1708.99 246.73C1698.41 255.04 1685.05 259.19 1668.89 259.19H1668.91Z" fill="black"/>
+<path id="Vector_15" d="M1841.36 256.76H1753.09V114.09H1771.97V239.83H1841.36V256.76Z" fill="black"/>
+<path id="Vector_16" d="M1970.3 256.76H1863.93V114.09H1966.99V131.02H1882.81V174.62H1961.54V191.55H1882.81V239.82H1970.3V256.75V256.76Z" fill="black"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_4">
+<rect width="2026.79" height="332.85" fill="white"/>
+</clipPath>
+</defs>
+</svg></a>
+    <span class="copy">© 2026 TechCircle. Enterprise technology, analysis and leadership.</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var poll = document.getElementById('poll');
+    if(!poll) return;
+    var options = Array.prototype.slice.call(poll.querySelectorAll('.option'));
+    var baseTotal = parseInt(poll.getAttribute('data-total'), 10) || 0;
+    var totalVotesEl = document.getElementById('totalVotes');
+    var sideHint = document.getElementById('sideHint');
+    var votedName = document.getElementById('votedName');
+    var voted = false;
+    function reveal(chosen){
+      if(voted) return;
+      voted = true;
+      var chosenVotes = parseInt(chosen.getAttribute('data-votes'),10) + 1;
+      chosen.setAttribute('data-votes', chosenVotes);
+      var total = baseTotal + 1;
+      options.forEach(function(o){
+        var v = parseInt(o.getAttribute('data-votes'),10);
+        var pct = total ? Math.round((v/total)*100) : 0;
+        o.querySelector('.fill').style.width = pct + '%';
+        o.querySelector('.baseline').style.width = pct + '%';
+        o.querySelector('.opt-pct').textContent = pct + '%';
+        o.querySelector('.opt-votes').textContent = v.toLocaleString() + (v===1?' vote':' votes');
+        o.setAttribute('aria-checked', o===chosen ? 'true':'false');
+      });
+      chosen.classList.add('selected');
+      poll.classList.add('voted');
+      totalVotesEl.textContent = total.toLocaleString();
+      sideHint.style.display = 'none';
+      votedName.textContent = chosen.querySelector('.opt-title').textContent;
+    }
+    options.forEach(function(o){
+      o.addEventListener('click', function(){ reveal(o); });
+      o.addEventListener('keydown', function(e){
+        if(e.key===' '||e.key==='Enter'){ e.preventDefault(); reveal(o); }
+      });
+    });
+    var copy = document.getElementById('copyLink');
+    var copyLabel = document.getElementById('copyLabel');
+    if(copy){
+      copy.addEventListener('click', function(e){
+        e.preventDefault();
+        var done = function(){ copyLabel.textContent='Link copied'; setTimeout(function(){copyLabel.textContent='Copy link';},1800); };
+        if(navigator.clipboard && location.href){ navigator.clipboard.writeText(location.href).then(done).catch(done); }
+        else { done(); }
+      });
+    }
+  })();
+</script>
+</body>
+</html>
